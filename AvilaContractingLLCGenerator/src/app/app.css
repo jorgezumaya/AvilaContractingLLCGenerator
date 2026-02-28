@@ -1,9 +1,16 @@
+.header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 2rem;
+  margin: 20px;
+}
+
 .logo {
-  max-width: 68%;
+  max-width: 100%;
   height: 20rem;
-  margin: 20px auto;
 }
 
 .EorIToggle {
-  margin-left: 45rem;
+  justify-self: start;
 }

@@ -1,5 +1,5 @@
-<img src="/avilaLLC.png" alt="Avila Contracting LLC Logo" class="logo" />
-<div>
+<div class="header">
+  <img src="/avilaLLC.png" alt="Avila Contracting LLC Logo" class="logo" />
   <mat-slide-toggle class="EorIToggle" (change)="toggleEorI()">{{ EorI() }}</mat-slide-toggle>
 </div>
 
@@ -7,11 +7,13 @@
   Select the date for the {{ EorI() }}. This will be stamped on the generated PDF.
   <mat-form-field>
   <mat-label>Choose a date</mat-label>
-  <input matInput [matDatepicker]="picker">
+  <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" (change)="onDateChange(selectedDate())">
   <mat-hint>MM/DD/YYYY</mat-hint>
   <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker></mat-datepicker>
 </mat-form-field>
-
+  <div *ngIf="selectedDate()">
+    Date Issues is: {{ selectedDate() | date: 'MM/dd/yyyy' }}
+  </div>
 </div>
 <router-outlet />
