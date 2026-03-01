@@ -14,5 +14,5 @@ jobs:
         with:
           node-version: '20'
       - run: npm install
-      - run: npm run build
+      - run: npm run build -- --base-href=/AvilaContractingLLCGenerator/
       - run: npx angular-cli-ghpages --dir=dist/AvilaContractingLLCGenerator/browser

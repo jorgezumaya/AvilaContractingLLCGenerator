@@ -41,6 +41,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/AvilaContractingLLCGenerator/",
               "budgets": [
                 {
                   "type": "initial",
