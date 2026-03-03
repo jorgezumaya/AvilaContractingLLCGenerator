@@ -237,11 +237,6 @@
     gap: 16px;
   }
 
-  .th-sqft,
-  .inv-table td:nth-child(2) {
-    display: none;
-  }
-
   .total-box {
     min-width: unset;
     width: 100%;
