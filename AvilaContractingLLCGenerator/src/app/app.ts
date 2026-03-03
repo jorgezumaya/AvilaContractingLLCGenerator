@@ -3,13 +3,13 @@ import { RouterOutlet } from "@angular/router";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatDialog } from "@angular/material/dialog";
-import { DocumentService } from "./document.service";
-import { PdfPreviewComponent } from "./pdf-preview.component";
+import { DocumentService } from "./services/document.service";
+import { PdfPreviewComponent } from "./pdf-preview/pdf-preview.component";
 import { HeaderComponent } from "./header/header.component";
 import { ClientInfoComponent } from "./client-info/client-info.component";
 import { LineItemsComponent } from "./line-items/line-items.component";
 import { DocumentFooterComponent } from "./document-footer/document-footer.component";
-import { ClientInfo, PreviewData, RoomSection, Status } from "./models";
+import { ClientInfo, PreviewData, RoomSection, Status } from "./models/models";
 
 @Component({
   selector: "app-root",

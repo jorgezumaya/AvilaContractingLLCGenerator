@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ClientInfoComponent } from "./client-info.component";
-import { ClientInfo } from "../models";
+import { ClientInfo } from "../models/models";
 import { provideAnimations } from "@angular/platform-browser/animations";
 
 describe("ClientInfoComponent", () => {

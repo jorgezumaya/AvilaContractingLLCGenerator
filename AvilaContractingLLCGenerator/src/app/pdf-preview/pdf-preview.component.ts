@@ -7,7 +7,7 @@ import {
 import { CommonModule, CurrencyPipe } from "@angular/common";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
-import { PreviewData } from "./models";
+import { PreviewData } from "../models/models";
 
 export type { PreviewData };
 
