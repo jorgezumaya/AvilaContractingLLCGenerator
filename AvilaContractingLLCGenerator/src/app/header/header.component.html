@@ -1,25 +1,37 @@
-<div class="header">
-  <img src="avilaLLC.png" alt="Avila Contracting LLC Logo" class="logo" />
-  <mat-slide-toggle class="doc-type-toggle" (change)="docTypeToggle.emit()">
-    {{ docType }}
-  </mat-slide-toggle>
-</div>
+<header class="site-header" aria-label="Avila Contracting LLC Generator">
+  <div class="branding">
+    <img src="avilaLLC.png" alt="Avila Contracting LLC logo" class="logo" />
+    <h1 class="site-title">Avila Contracting LLC Generator</h1>
+  </div>
 
-<div class="date-row">
-  <span class="date-label">Select the date for the {{ docType }}:</span>
-  <mat-form-field appearance="outline" class="date-field">
-    <mat-label>Choose a date</mat-label>
-    <input
-      matInput
-      [matDatepicker]="picker"
-      [(ngModel)]="date"
-      (dateChange)="onDateChange($event.value)"
-    />
-    <mat-hint>MM/DD/YYYY</mat-hint>
-    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
-  <span *ngIf="date" class="date-issued">
-    Date Issued: <strong>{{ date | date: 'MM/dd/yyyy' }}</strong>
-  </span>
-</div>
+  <div class="controls" role="group" aria-label="Document settings">
+    <mat-slide-toggle
+      class="doc-type-toggle"
+      (change)="docTypeToggle.emit()"
+      [attr.aria-label]="'Document type: ' + docType + '. Toggle to switch.'">
+      {{ docType }}
+    </mat-slide-toggle>
+
+    <span class="date-label" id="date-select-label">
+      Select the date for the {{ docType }}:
+    </span>
+
+    <mat-form-field appearance="outline" class="date-field">
+      <mat-label>Choose a date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        [(ngModel)]="date"
+        (dateChange)="onDateChange($event.value)"
+        aria-labelledby="date-select-label"
+      />
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <span *ngIf="date" class="date-issued" aria-live="polite">
+      Date Issued: <strong>{{ date | date: 'MM/dd/yyyy' }}</strong>
+    </span>
+  </div>
+</header>

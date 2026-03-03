@@ -1,26 +1,45 @@
-.header {
-  display: grid;
-  grid-template-columns: auto 1fr;
+/* ===== Header Layout ===== */
+.site-header {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 2rem;
-  margin: 20px;
+  padding: 20px 24px 8px;
+  gap: 12px;
+}
+
+.branding {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
 
 .logo {
-  max-width: 100%;
-  height: 20rem;
+  height: 10rem;
+  width: auto;
+}
+
+.site-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #1a237e;
+  text-align: center;
+  margin: 0;
+}
+
+/* ===== Controls Row ===== */
+.controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  padding: 0 24px 8px;
+  width: 100%;
 }
 
 .doc-type-toggle {
-  justify-self: start;
-}
-
-.date-row {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  padding: 0 24px 8px;
+  flex-shrink: 0;
 }
 
 .date-label {
@@ -38,23 +57,15 @@
 }
 
 /* ===== Responsive ===== */
+
+/* xs + sm: < 768px (phones) */
 @media (max-width: 767px) {
-  .header {
-    grid-template-columns: 1fr;
-    justify-items: center;
-    gap: 1rem;
-    margin: 12px;
+  .site-header {
+    padding: 12px 12px 8px;
+    gap: 8px;
   }
 
-  .logo {
-    height: 10rem;
-  }
-
-  .doc-type-toggle {
-    justify-self: center;
-  }
-
-  .date-row {
+  .controls {
     flex-direction: column;
     align-items: flex-start;
     padding: 0 12px 8px;
@@ -66,6 +77,7 @@
   }
 }
 
+/* md: 768–1023px (iPads) */
 @media (min-width: 768px) and (max-width: 1023px) {
   .logo {
     height: 14rem;
@@ -73,5 +85,12 @@
 
   .date-field {
     width: 220px;
+  }
+}
+
+/* lg+: ≥ 1024px (desktop) */
+@media (min-width: 1024px) {
+  .logo {
+    height: 20rem;
   }
 }
