@@ -1,0 +1,47 @@
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>Client Information</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="client-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Client Name</mat-label>
+        <input
+          matInput
+          [(ngModel)]="info.name"
+          placeholder="e.g. Waters Construction LLC"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Client Phone</mat-label>
+        <input
+          matInput
+          [(ngModel)]="info.phone"
+          placeholder="817-822-5200"
+          maxlength="12"
+          pattern="[0-9\-]*"
+          inputmode="numeric"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Client Address</mat-label>
+        <input
+          matInput
+          [(ngModel)]="info.address"
+          placeholder="City, State ZIP"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Address Worked</mat-label>
+        <input
+          matInput
+          [(ngModel)]="info.addressWorked"
+          placeholder="e.g. 324 Cutler St"
+        />
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+</mat-card>

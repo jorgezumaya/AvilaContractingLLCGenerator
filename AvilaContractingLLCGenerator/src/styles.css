@@ -1,1 +1,38 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global resets & responsive base */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Make mat-card fill width on all screens */
+mat-card {
+  width: 100%;
+}
+
+/* Responsive mat-form-field inside cards */
+mat-form-field {
+  max-width: 100%;
+}
+
+/* ===== Breakpoints ===================================================
+   xs  : < 480px   (iPhone SE, older iPhones)
+   sm  : 480–767px (iPhone 16, Plus, Pro Max)
+   md  : 768–1023px (iPad mini → iPad Air)
+   lg  : 1024–1279px (iPad Pro 11", iPad Pro 12.9")
+   xl  : ≥ 1280px  (Desktop)
+===================================================================== */
+
+/* Fluid images */
+img {
+  max-width: 100%;
+  height: auto;
+}

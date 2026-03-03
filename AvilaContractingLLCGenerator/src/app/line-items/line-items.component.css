@@ -1,0 +1,92 @@
+.room-section {
+  margin-bottom: 8px;
+}
+
+.room-header-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.room-name-field {
+  flex: 1;
+  max-width: 340px;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.line-items-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 8px;
+}
+
+.line-items-table thead tr {
+  background-color: #f0f4ff;
+}
+
+.line-items-table th {
+  padding: 10px 8px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #3a3a3a;
+  border-bottom: 2px solid #c5cfe8;
+  white-space: nowrap;
+}
+
+.line-items-table td {
+  padding: 2px 4px;
+  vertical-align: middle;
+}
+
+.line-items-table tbody tr:nth-child(even) {
+  background-color: #fafbff;
+}
+
+.col-desc   { width: 55%; }
+.col-sqft   { width: 15%; }
+.col-amount { width: 20%; }
+.col-action { width: 6%; text-align: center; }
+
+.cell-field {
+  width: 100%;
+}
+
+.line-items-table .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+.add-row-btn {
+  margin-bottom: 8px;
+}
+
+.section-divider {
+  margin: 20px 0;
+}
+
+.add-section-row {
+  margin-top: 12px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .room-name-field {
+    max-width: 100%;
+  }
+
+  .col-sqft {
+    display: none;
+  }
+
+  .line-items-table th,
+  .line-items-table td {
+    padding: 4px 2px;
+    font-size: 0.75rem;
+  }
+}

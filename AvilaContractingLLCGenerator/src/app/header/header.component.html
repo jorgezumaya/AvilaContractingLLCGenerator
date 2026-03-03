@@ -1,0 +1,25 @@
+<div class="header">
+  <img src="avilaLLC.png" alt="Avila Contracting LLC Logo" class="logo" />
+  <mat-slide-toggle class="doc-type-toggle" (change)="docTypeToggle.emit()">
+    {{ docType }}
+  </mat-slide-toggle>
+</div>
+
+<div class="date-row">
+  <span class="date-label">Select the date for the {{ docType }}:</span>
+  <mat-form-field appearance="outline" class="date-field">
+    <mat-label>Choose a date</mat-label>
+    <input
+      matInput
+      [matDatepicker]="picker"
+      [(ngModel)]="date"
+      (dateChange)="onDateChange($event.value)"
+    />
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <span *ngIf="date" class="date-issued">
+    Date Issued: <strong>{{ date | date: 'MM/dd/yyyy' }}</strong>
+  </span>
+</div>

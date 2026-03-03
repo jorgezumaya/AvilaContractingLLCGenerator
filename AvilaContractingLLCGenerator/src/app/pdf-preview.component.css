@@ -211,3 +211,38 @@
   background-color: #b71c1c !important;
   color: #fff !important;
 }
+
+/* ===== Responsive ===== */
+@media (max-width: 767px) {
+  .paper {
+    padding: 24px 16px;
+  }
+
+  .doc-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .doc-type-block {
+    text-align: left;
+  }
+
+  .addresses {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .th-sqft,
+  .inv-table td:nth-child(2) {
+    display: none;
+  }
+
+  .total-box {
+    min-width: unset;
+    width: 100%;
+  }
+
+  .dialog-body {
+    padding: 12px !important;
+  }
+}

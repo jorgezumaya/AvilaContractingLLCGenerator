@@ -1,0 +1,77 @@
+.header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 2rem;
+  margin: 20px;
+}
+
+.logo {
+  max-width: 100%;
+  height: 20rem;
+}
+
+.doc-type-toggle {
+  justify-self: start;
+}
+
+.date-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 0 24px 8px;
+}
+
+.date-label {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.date-field {
+  width: 200px;
+}
+
+.date-issued {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 767px) {
+  .header {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 1rem;
+    margin: 12px;
+  }
+
+  .logo {
+    height: 10rem;
+  }
+
+  .doc-type-toggle {
+    justify-self: center;
+  }
+
+  .date-row {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 12px 8px;
+    gap: 8px;
+  }
+
+  .date-field {
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .logo {
+    height: 14rem;
+  }
+
+  .date-field {
+    width: 220px;
+  }
+}

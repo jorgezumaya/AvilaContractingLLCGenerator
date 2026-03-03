@@ -7,18 +7,9 @@ import {
 import { CommonModule, CurrencyPipe } from "@angular/common";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
-import { RoomSection } from "./app";
+import { PreviewData } from "./models";
 
-export interface PreviewData {
-  docType: string;
-  date: Date | null;
-  clientName: string;
-  clientPhone: string;
-  clientAddress: string;
-  addressWorked: string;
-  sections: RoomSection[];
-  grandTotal: number;
-}
+export type { PreviewData };
 
 @Component({
   selector: "app-pdf-preview",
@@ -37,17 +28,51 @@ export class PdfPreviewComponent {
     this.dialogRef.close();
   }
 
-  downloadPdf() {
+  async downloadPdf() {
+    const logoDataUrl = await this.fetchLogoAsDataUrl();
     const win = window.open("", "_blank", "width=960,height=780");
     if (!win) return;
-    win.document.write(this.buildPrintHtml());
+    win.document.title = this.buildFilename();
+    win.document.write(this.buildPrintHtml(logoDataUrl));
     win.document.close();
     win.focus();
-    // Small delay lets the browser parse styles before printing
     setTimeout(() => win.print(), 600);
   }
 
-  private fmt(n: number | null): string {
+  /** Converts avilaLLC.png to a base64 data URL so it embeds in the standalone print window. */
+  private async fetchLogoAsDataUrl(): Promise<string> {
+    try {
+      const resp = await fetch("avilaLLC.png");
+      const blob = await resp.blob();
+      return await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    } catch {
+      return "";
+    }
+  }
+
+  /** Builds filename like "324CutlerSt_03022026" */
+  buildFilename(): string {
+    const addr = (this.data.addressWorked || "Document")
+      .replace(/\s+/g, "")
+      .replace(/[^a-zA-Z0-9]/g, "");
+    const date = this.data.date
+      ? new Intl.DateTimeFormat("en-US", {
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
+        })
+          .format(new Date(this.data.date))
+          .replace(/\//g, "")
+      : "NoDate";
+    return `${addr}_${date}`;
+  }
+
+  formatCurrency(n: number | null): string {
     if (n == null) return "";
     return new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -55,10 +80,14 @@ export class PdfPreviewComponent {
     }).format(n);
   }
 
-  private buildPrintHtml(): string {
+  buildPrintHtml(logoDataUrl = ""): string {
     const dateStr = this.data.date
       ? new Intl.DateTimeFormat("en-US").format(new Date(this.data.date))
       : "—";
+
+    const logoHtml = logoDataUrl
+      ? `<img src="${logoDataUrl}" alt="Avila Contracting LLC" class="logo" />`
+      : "";
 
     const rows = this.data.sections
       .map(
@@ -72,40 +101,35 @@ export class PdfPreviewComponent {
           <tr>
             <td class="td-desc">${item.description || ""}</td>
             <td class="td-sqft">${item.sqFt ?? ""}</td>
-            <td class="td-amount">${item.totalAmount != null ? this.fmt(item.totalAmount) : ""}</td>
+            <td class="td-amount">${item.totalAmount != null ? this.formatCurrency(item.totalAmount) : ""}</td>
           </tr>`
           )
           .join("")}`
       )
       .join("");
 
-    const grandTotal = this.fmt(this.data.grandTotal);
+    const grandTotal = this.formatCurrency(this.data.grandTotal);
 
     return `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>${this.data.docType} — ${this.data.clientName}</title>
+  <title>${this.buildFilename()}</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: Arial, sans-serif; font-size: 13px; color: #222; background: #fff; }
     .doc { padding: 48px; max-width: 800px; margin: 0 auto; }
-
-    /* ---- Header ---- */
     .doc-header { display: flex; justify-content: space-between; align-items: flex-start;
       border-bottom: 3px solid #1a237e; padding-bottom: 20px; margin-bottom: 28px; }
-    .company-name { font-size: 22px; font-weight: 700; color: #1a237e; }
+    .logo { height: 80px; width: auto; object-fit: contain; }
+    .company-name { font-size: 22px; font-weight: 700; color: #1a237e; margin-top: 6px; }
     .company-tagline { font-size: 11px; color: #666; margin-top: 3px; }
     .doc-type { font-size: 28px; font-weight: 700; color: #1a237e; text-transform: uppercase; text-align: right; }
     .doc-date { font-size: 12px; color: #666; text-align: right; margin-top: 6px; }
-
-    /* ---- Addresses ---- */
     .addresses { display: flex; justify-content: space-between; margin-bottom: 28px; }
     .addr-block h4 { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: #999; margin-bottom: 6px; }
     .addr-block p { font-size: 13px; line-height: 1.65; }
     .bold { font-weight: 600; }
-
-    /* ---- Table ---- */
     table { width: 100%; border-collapse: collapse; }
     thead tr { background: #1a237e; }
     th { color: #fff; padding: 10px 12px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; text-align: left; }
@@ -117,26 +141,20 @@ export class PdfPreviewComponent {
     td.td-sqft { width: 15%; }
     td.td-amount { width: 20%; }
     tr.section-row td { background: #e8eaf6 !important; font-weight: 700; color: #1a237e; }
-
-    /* ---- Total ---- */
     .total-wrap { display: flex; justify-content: flex-end; margin-top: 20px; }
     .total-box { border: 2px solid #1a237e; border-radius: 6px; padding: 12px 20px; text-align: right; min-width: 210px; }
     .total-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: #777; }
     .total-value { font-size: 24px; font-weight: 700; color: #1a237e; margin-top: 4px; }
-
-    /* ---- Footer ---- */
     .doc-footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid #ddd; font-size: 12px; color: #555; line-height: 1.8; }
     .payable { font-size: 13px; font-weight: 600; color: #222; margin-bottom: 6px; }
-
-    @media print {
-      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    }
+    @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
   </style>
 </head>
 <body>
   <div class="doc">
     <div class="doc-header">
       <div>
+        ${logoHtml}
         <div class="company-name">Avila Contracting LLC</div>
         <div class="company-tagline">Professional Tile Installation</div>
       </div>
@@ -145,7 +163,6 @@ export class PdfPreviewComponent {
         <div class="doc-date">Date: ${dateStr}</div>
       </div>
     </div>
-
     <div class="addresses">
       <div class="addr-block">
         <h4>Bill To</h4>
@@ -158,7 +175,6 @@ export class PdfPreviewComponent {
         <p class="bold">${this.data.addressWorked || "—"}</p>
       </div>
     </div>
-
     <table>
       <thead>
         <tr>
@@ -169,14 +185,12 @@ export class PdfPreviewComponent {
       </thead>
       <tbody>${rows}</tbody>
     </table>
-
     <div class="total-wrap">
       <div class="total-box">
         <div class="total-label">Total Amount</div>
         <div class="total-value">${grandTotal}</div>
       </div>
     </div>
-
     <div class="doc-footer">
       <div class="payable">Makes checks payable to: Avila Contracting LLC</div>
       <div>Thank you for choosing Avila Contracting LLC. If you have any questions regarding this ${this.data.docType.toLowerCase()} or need further assistance, please feel free to contact us:</div>

@@ -1,197 +1,11 @@
-/* ===== HEADER ===== */
-.header {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  gap: 2rem;
-  margin: 20px;
-}
-
-.logo {
-  max-width: 100%;
-  height: 20rem;
-}
-
-.EorIToggle {
-  justify-self: start;
-}
-
 /* ===== PAGE LAYOUT ===== */
 .page-container {
-  padding: 0 24px 48px;
+  padding: 0 24px 100px;
   max-width: 1100px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 24px;
-}
-
-/* ===== DATE ROW ===== */
-.date-row {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.date-label {
-  font-size: 0.95rem;
-  color: #555;
-}
-
-.date-field {
-  width: 200px;
-}
-
-.date-issued {
-  font-size: 0.95rem;
-  color: #333;
-}
-
-/* ===== CARDS ===== */
-.section-card {
-  width: 100%;
-}
-
-mat-card-content {
-  padding-top: 12px !important;
-}
-
-/* ===== CLIENT GRID ===== */
-.client-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-top: 8px;
-}
-
-.full-width {
-  grid-column: 1 / -1;
-}
-
-/* ===== ROOM SECTION ===== */
-.room-section {
-  margin-bottom: 8px;
-}
-
-.room-header-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 4px;
-}
-
-.room-name-field {
-  flex: 1;
-  max-width: 340px;
-}
-
-/* ===== LINE ITEMS TABLE ===== */
-.table-wrapper {
-  overflow-x: auto;
-}
-
-.line-items-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 8px;
-}
-
-.line-items-table thead tr {
-  background-color: #f0f4ff;
-}
-
-.line-items-table th {
-  padding: 10px 8px;
-  text-align: left;
-  font-weight: 600;
-  font-size: 0.82rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: #3a3a3a;
-  border-bottom: 2px solid #c5cfe8;
-  white-space: nowrap;
-}
-
-.line-items-table td {
-  padding: 2px 4px;
-  vertical-align: middle;
-}
-
-.line-items-table tbody tr:nth-child(even) {
-  background-color: #fafbff;
-}
-
-/* Column widths */
-.col-desc    { width: 55%; }
-.col-sqft    { width: 15%; }
-.col-amount  { width: 20%; }
-.col-action  { width: 6%; text-align: center; }
-
-.cell-field {
-  width: 100%;
-}
-
-/* Shrink mat-form-field vertical padding inside table cells */
-.line-items-table .mat-mdc-form-field-subscript-wrapper {
-  display: none;
-}
-
-/* ===== BUTTONS ===== */
-.add-row-btn {
-  margin-bottom: 8px;
-}
-
-.section-divider {
-  margin: 20px 0;
-}
-
-.add-section-row {
-  margin-top: 12px;
-}
-
-/* ===== TOTALS CARD ===== */
-.totals-card {
-  background-color: #fafafa;
-}
-
-.totals-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
-  padding: 8px 0;
-}
-
-.payable-label {
-  font-size: 1rem;
-  color: #333;
-}
-
-.total-box {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  border: 2px solid #1976d2;
-  border-radius: 8px;
-  padding: 12px 24px;
-  min-width: 180px;
-  background: #fff;
-}
-
-.total-label {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: #777;
-  margin-bottom: 4px;
-}
-
-.total-value {
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #1976d2;
 }
 
 /* ===== PREVIEW FAB ===== */
@@ -207,4 +21,17 @@ mat-card-content {
 
 .preview-fab mat-icon {
   color: #fff !important;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .page-container {
+    padding: 0 12px 100px;
+    gap: 16px;
+  }
+
+  .preview-fab {
+    bottom: 20px;
+    right: 16px;
+  }
 }

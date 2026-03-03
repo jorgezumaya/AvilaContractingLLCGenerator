@@ -1,0 +1,42 @@
+.total-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  border: 2px solid #1976d2;
+  border-radius: 8px;
+  padding: 12px 24px;
+  background: #fff;
+  margin-bottom: 16px;
+}
+
+.total-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #777;
+  margin-bottom: 4px;
+}
+
+.total-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1976d2;
+}
+
+.footer-card {
+  background-color: #fafafa;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: #444;
+  line-height: 1.6;
+}
+
+.payable {
+  font-size: 1rem;
+  color: #222;
+}
