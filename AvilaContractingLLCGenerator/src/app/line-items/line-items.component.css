@@ -80,10 +80,6 @@
     max-width: 100%;
   }
 
-  .col-sqft {
-    display: none;
-  }
-
   .line-items-table th,
   .line-items-table td {
     padding: 4px 2px;
