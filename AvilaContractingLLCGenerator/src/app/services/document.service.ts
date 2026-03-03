@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { LineItem, RoomSection } from "./models";
+import { LineItem, RoomSection } from "../models/models";
 
 @Injectable({ providedIn: "root" })
 export class DocumentService {

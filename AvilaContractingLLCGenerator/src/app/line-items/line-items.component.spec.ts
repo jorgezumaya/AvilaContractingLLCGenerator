@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { LineItemsComponent } from "./line-items.component";
-import { RoomSection } from "../models";
+import { RoomSection } from "../models/models";
 import { provideAnimations } from "@angular/platform-browser/animations";
 
 function makeSection(name = "Master"): RoomSection {

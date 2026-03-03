@@ -5,7 +5,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { provideNativeDateAdapter } from "@angular/material/core";
 import { provideAnimations } from "@angular/platform-browser/animations";
 import { provideRouter } from "@angular/router";
-import { Status } from "./models";
+import { Status } from "./models/models";
 
 const dialogSpy = { open: vi.fn() };
 

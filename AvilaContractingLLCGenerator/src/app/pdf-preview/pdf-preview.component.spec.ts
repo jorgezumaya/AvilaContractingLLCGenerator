@@ -2,7 +2,7 @@ import { TestBed } from "@angular/core/testing";
 import { vi } from "vitest";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { PdfPreviewComponent } from "./pdf-preview.component";
-import { PreviewData } from "./models";
+import { PreviewData } from "../models/models";
 import { provideAnimations } from "@angular/platform-browser/animations";
 
 const mockData: PreviewData = {

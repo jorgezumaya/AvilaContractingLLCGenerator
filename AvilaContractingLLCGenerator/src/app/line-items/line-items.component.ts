@@ -7,8 +7,8 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatCardModule } from "@angular/material/card";
-import { DocumentService } from "../document.service";
-import { RoomSection } from "../models";
+import { DocumentService } from "../services/document.service";
+import { RoomSection } from "../models/models";
 
 @Component({
   selector: "app-line-items",
