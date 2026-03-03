@@ -29,9 +29,11 @@ export class PdfPreviewComponent {
   }
 
   async downloadPdf() {
-    const logoDataUrl = await this.fetchLogoAsDataUrl();
+    // Open the window synchronously (must happen inside the tap gesture or iOS Safari blocks it),
+    // then fill it in after the async logo fetch completes.
     const win = window.open("", "_blank", "width=960,height=780");
     if (!win) return;
+    const logoDataUrl = await this.fetchLogoAsDataUrl();
     win.document.title = this.buildFilename();
     win.document.write(this.buildPrintHtml(logoDataUrl));
     win.document.close();
