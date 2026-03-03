@@ -1,0 +1,90 @@
+<!-- ===== DIALOG HEADER ===== -->
+<div class="dialog-titlebar">
+  <span class="dialog-title">{{ data.docType }} Preview</span>
+  <button mat-icon-button (click)="close()" title="Close">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<!-- ===== SCROLLABLE PREVIEW CONTENT ===== -->
+<mat-dialog-content class="dialog-body">
+  <div class="paper">
+
+    <!-- Document header -->
+    <div class="doc-header">
+      <div>
+        <div class="company-name">Avila Contracting LLC</div>
+        <div class="company-tagline">Professional Tile Installation</div>
+      </div>
+      <div class="doc-type-block">
+        <div class="doc-type">{{ data.docType }}</div>
+        <div class="doc-date" *ngIf="data.date">
+          Date: {{ data.date | date: 'MM/dd/yyyy' }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Addresses -->
+    <div class="addresses">
+      <div class="addr-block">
+        <h4>Bill To</h4>
+        <p class="bold">{{ data.clientName || '—' }}</p>
+        <p>{{ data.clientAddress }}</p>
+        <p>{{ data.clientPhone }}</p>
+      </div>
+      <div class="addr-block">
+        <h4>Address Worked</h4>
+        <p class="bold">{{ data.addressWorked || '—' }}</p>
+      </div>
+    </div>
+
+    <!-- Line items table -->
+    <table class="inv-table">
+      <thead>
+        <tr>
+          <th class="th-desc">Description</th>
+          <th class="th-sqft">Sq Ft</th>
+          <th class="th-amount">Total Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let section of data.sections">
+          <tr class="section-row">
+            <td colspan="3">{{ section.name }}</td>
+          </tr>
+          <tr *ngFor="let item of section.items">
+            <td class="td-desc">{{ item.description }}</td>
+            <td class="td-sqft">{{ item.sqFt || '' }}</td>
+            <td class="td-amount">{{ item.totalAmount | currency }}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+
+    <!-- Grand total -->
+    <div class="total-wrap">
+      <div class="total-box">
+        <span class="total-label">Total Amount</span>
+        <span class="total-value">{{ data.grandTotal | currency }}</span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="doc-footer">
+      <p class="payable">Makes checks payable to: <strong>Avila Contracting LLC</strong></p>
+      <p>Thank you for choosing Avila Contracting LLC. If you have any questions regarding this {{ data.docType | lowercase }} or need further assistance, please feel free to contact us:</p>
+      <p><strong>Email / Phone: Avilacontractingllc4@gmail.com &nbsp;|&nbsp; (+1) 984-202-6576</strong></p>
+    </div>
+
+  </div>
+</mat-dialog-content>
+
+<!-- ===== ACTIONS ===== -->
+<mat-dialog-actions align="end" class="dialog-actions">
+  <button mat-stroked-button (click)="close()">
+    <mat-icon>close</mat-icon> Close
+  </button>
+  <button mat-flat-button class="download-btn" (click)="downloadPdf()">
+    <mat-icon>download</mat-icon> Download PDF
+  </button>
+</mat-dialog-actions>

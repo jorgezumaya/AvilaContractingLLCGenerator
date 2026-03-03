@@ -1,0 +1,213 @@
+/* ===== DIALOG SHELL ===== */
+.dialog-titlebar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px 12px 24px;
+  border-bottom: 1px solid #e0e0e0;
+  background: #1a237e;
+  color: #fff;
+  border-radius: 4px 4px 0 0;
+}
+
+.dialog-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.dialog-titlebar button {
+  color: #fff !important;
+}
+
+.dialog-body {
+  background: #ececec;
+  padding: 28px !important;
+  max-height: 70vh;
+}
+
+.dialog-actions {
+  padding: 12px 20px !important;
+  border-top: 1px solid #e0e0e0;
+  gap: 10px;
+}
+
+/* ===== PAPER ===== */
+.paper {
+  background: #fff;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 48px;
+  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.18);
+  border-radius: 2px;
+}
+
+/* ===== DOCUMENT HEADER ===== */
+.doc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 3px solid #1a237e;
+  padding-bottom: 18px;
+  margin-bottom: 24px;
+}
+
+.company-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a237e;
+}
+
+.company-tagline {
+  font-size: 11px;
+  color: #777;
+  margin-top: 3px;
+}
+
+.doc-type-block {
+  text-align: right;
+}
+
+.doc-type {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1a237e;
+  text-transform: uppercase;
+}
+
+.doc-date {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+
+/* ===== ADDRESSES ===== */
+.addresses {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.addr-block h4 {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #999;
+  margin-bottom: 5px;
+}
+
+.addr-block p {
+  font-size: 13px;
+  line-height: 1.65;
+  color: #333;
+}
+
+.bold {
+  font-weight: 600;
+  color: #111;
+}
+
+/* ===== INVOICE TABLE ===== */
+.inv-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.inv-table thead tr {
+  background: #1a237e;
+}
+
+.inv-table th {
+  color: #fff;
+  padding: 10px 12px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-align: left;
+}
+
+.th-amount {
+  text-align: right;
+}
+
+.inv-table tbody tr {
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.inv-table tbody tr:nth-child(even) {
+  background: #f5f7ff;
+}
+
+.inv-table td {
+  padding: 8px 12px;
+  font-size: 13px;
+  color: #333;
+}
+
+.th-desc, .td-desc { width: 60%; }
+.th-sqft, .td-sqft { width: 15%; }
+.th-amount, .td-amount { width: 20%; text-align: right; }
+
+.section-row td {
+  background: #e8eaf6 !important;
+  font-weight: 700;
+  color: #1a237e;
+  font-size: 13px;
+  border-bottom: none;
+}
+
+/* ===== TOTAL ===== */
+.total-wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+.total-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  border: 2px solid #1a237e;
+  border-radius: 6px;
+  padding: 12px 20px;
+  min-width: 210px;
+}
+
+.total-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #777;
+  margin-bottom: 4px;
+}
+
+.total-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a237e;
+}
+
+/* ===== FOOTER ===== */
+.doc-footer {
+  margin-top: 28px;
+  padding-top: 14px;
+  border-top: 1px solid #e0e0e0;
+  font-size: 12px;
+  color: #555;
+  line-height: 1.8;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.payable {
+  font-size: 13px;
+  font-weight: 600;
+  color: #222;
+}
+
+/* ===== DOWNLOAD BUTTON ===== */
+.download-btn {
+  background-color: #b71c1c !important;
+  color: #fff !important;
+}

@@ -1,19 +1,226 @@
+<!-- ===== HEADER ===== -->
 <div class="header">
   <img src="avilaLLC.png" alt="Avila Contracting LLC Logo" class="logo" />
-  <mat-slide-toggle class="EorIToggle" (change)="toggleEorI()">{{ EorI() }}</mat-slide-toggle>
+  <mat-slide-toggle class="EorIToggle" (change)="toggleEorI()"
+    >{{ EorI() }}</mat-slide-toggle
+  >
 </div>
 
-<div>
-  Select the date for the {{ EorI() }}. This will be stamped on the generated PDF.
-  <mat-form-field>
-  <mat-label>Choose a date</mat-label>
-  <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" (change)="onDateChange(selectedDate())">
-  <mat-hint>MM/DD/YYYY</mat-hint>
-  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-  <mat-datepicker #picker></mat-datepicker>
-</mat-form-field>
-  <div *ngIf="selectedDate()">
-    Date Issued is: {{ selectedDate() | date: 'MM/dd/yyyy' }}
+<div class="page-container">
+  <!-- ===== DATE ===== -->
+  <div class="date-row">
+    <span class="date-label">Select the date for the {{ EorI() }}:</span>
+    <mat-form-field appearance="outline" class="date-field">
+      <mat-label>Choose a date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        [(ngModel)]="selectedDate"
+        (change)="onDateChange(selectedDate())"
+      />
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <span *ngIf="selectedDate()" class="date-issued">
+      Date Issued: <strong>{{ selectedDate() | date: 'MM/dd/yyyy' }}</strong>
+    </span>
   </div>
+
+  <!-- ===== CLIENT INFORMATION ===== -->
+  <mat-card appearance="outlined" class="section-card">
+    <mat-card-header>
+      <mat-card-title>Client Information</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="client-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Client Name</mat-label>
+          <input
+            matInput
+            [(ngModel)]="clientName"
+            placeholder="e.g. Waters Construction LLC"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Client Phone</mat-label>
+          <input
+            matInput
+            [(ngModel)]="clientPhone"
+            placeholder="817-822-5200"
+            maxlength="12"
+            pattern="[0-9\-]*"
+            inputmode="numeric"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Client Address</mat-label>
+          <input
+            matInput
+            [(ngModel)]="clientAddress"
+            placeholder="City, State ZIP"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Address Worked</mat-label>
+          <input
+            matInput
+            [(ngModel)]="addressWorked"
+            placeholder="e.g. 324 Cutler St"
+          />
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- ===== LINE ITEMS ===== -->
+  <mat-card appearance="outlined" class="section-card">
+    <mat-card-header>
+      <mat-card-title>Line Items</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div
+        *ngFor="let section of sections; let sIdx = index"
+        class="room-section"
+      >
+        <!-- Room / Area name row -->
+        <div class="room-header-row">
+          <mat-form-field appearance="outline" class="room-name-field">
+            <mat-label>Room / Area</mat-label>
+            <input
+              matInput
+              [(ngModel)]="section.name"
+              placeholder="e.g. Master Bath, Tub Bath..."
+            />
+          </mat-form-field>
+          <button
+            mat-icon-button
+            color="warn"
+            (click)="removeSection(sIdx)"
+            [disabled]="sections.length === 1"
+            title="Remove this section"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+
+        <!-- Line items table -->
+        <div class="table-wrapper">
+          <table class="line-items-table">
+            <thead>
+              <tr>
+                <th class="col-desc">Description</th>
+                <th class="col-sqft">Sq Ft</th>
+                <th class="col-amount">Total Amount</th>
+                <th class="col-action"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of section.items; let iIdx = index">
+                <td class="col-desc">
+                  <mat-form-field appearance="outline" class="cell-field">
+                    <input
+                      matInput
+                      [(ngModel)]="item.description"
+                      placeholder="Wall, Floor, Niche..."
+                    />
+                  </mat-form-field>
+                </td>
+                <td class="col-sqft">
+                  <mat-form-field appearance="outline" class="cell-field">
+                    <input
+                      matInput
+                      type="number"
+                      min="0"
+                      [(ngModel)]="item.sqFt"
+                      placeholder="0"
+                    />
+                  </mat-form-field>
+                </td>
+                <td class="col-amount">
+                  <mat-form-field appearance="outline" class="cell-field">
+                    <span matTextPrefix>$&nbsp;</span>
+                    <input
+                      matInput
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      [(ngModel)]="item.totalAmount"
+                      placeholder="0.00"
+                    />
+                  </mat-form-field>
+                </td>
+                <td class="col-action">
+                  <button
+                    mat-icon-button
+                    color="warn"
+                    (click)="removeItem(sIdx, iIdx)"
+                    [disabled]="section.items.length === 1"
+                    title="Remove row"
+                  >
+                    <mat-icon>remove_circle_outline</mat-icon>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <button
+          mat-stroked-button
+          color="primary"
+          (click)="addItem(sIdx)"
+          class="add-row-btn"
+        >
+          <mat-icon>add</mat-icon> Add Row
+        </button>
+
+        <mat-divider
+          *ngIf="sIdx < sections.length - 1"
+          class="section-divider"
+        ></mat-divider>
+      </div>
+
+      <div class="add-section-row">
+        <button mat-stroked-button (click)="addSection()">
+          <mat-icon>add_circle_outline</mat-icon> Add Room / Area
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="total-box">
+    <span class="total-label">Total Amount</span>
+    <span class="total-value">{{ grandTotal() | currency }}</span>
+  </div>
+
+  <!-- ===== TOTALS & PAYABLE ===== -->
+  <mat-card appearance="outlined" class="section-card totals-card">
+    <mat-card-content>
+      <div class="totals-row">
+        <span class="payable-label">
+          Makes checks payable to: <strong>{{ PAYABLE_TO }}</strong>
+        </span>
+        <br />
+        Thank you for choosing Avila Contracting LLC. If you have any questions
+        regarding this invoice or need further assistance, please feel free to
+        contact me at the email or phone number listed below: Email/ Phone:
+        <b> Avilacontractingllc4@gmail.com or (+1) 984-202-6576</b>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>
+
+<!-- ===== PREVIEW FAB ===== -->
+<button mat-fab extended class="preview-fab" (click)="openPreview()">
+  <mat-icon>picture_as_pdf</mat-icon>
+  Preview PDF
+</button>
+
 <router-outlet />
