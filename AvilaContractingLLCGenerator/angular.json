@@ -41,6 +41,7 @@
           },
           "configurations": {
             "production": {
+              "outputMode": "static",
               "baseHref": "/AvilaContractingLLCGenerator/",
               "fileReplacements": [
                 {

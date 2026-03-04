@@ -94,11 +94,9 @@ jobs:
 
       - name: Build Angular app
         working-directory: AvilaContractingLLCGenerator
-        run: |
-          npm run build -- --base-href /AvilaContractingLLCGenerator/
-          # GitHub Pages has no SPA fallback — 404.html bootstraps the Angular
-          # app for deep links (/callback, /generator, etc.)
-          cp dist/AvilaContractingLLCGenerator/browser/index.html dist/AvilaContractingLLCGenerator/browser/404.html
+        run: npm run build
+        # baseHref is set in angular.json production config.
+        # postbuild script copies index.html → 404.html for SPA deep-link support.
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
