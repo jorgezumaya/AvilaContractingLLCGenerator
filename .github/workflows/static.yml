@@ -81,7 +81,7 @@ jobs:
 
       - name: Build Angular app
         working-directory: AvilaContractingLLCGenerator
-        run: npm run build -- --base-href=/AvilaContractingLLCGenerator/
+        run: npm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
