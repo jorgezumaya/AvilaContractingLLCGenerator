@@ -14,10 +14,10 @@
 
   @if (auth?.isAuthenticated$ | async) {
     @if (auth?.user$ | async; as user) {
-      <div class="user-greeting" [matTooltip]="collapsed ? (user.name ?? user.email ?? '') : ''" matTooltipPosition="right">
+      <div class="user-greeting" [matTooltip]="collapsed ? (user.name ?? '') : ''" matTooltipPosition="right">
         <mat-icon class="greeting-icon" aria-hidden="true">account_circle</mat-icon>
         @if (!collapsed) {
-          <span class="greeting-name">Hello, {{ user.name ?? user.email ?? 'there' }}</span>
+          <span class="greeting-name">Hello, {{ user.name ?? 'there' }}</span>
         }
       </div>
     }
