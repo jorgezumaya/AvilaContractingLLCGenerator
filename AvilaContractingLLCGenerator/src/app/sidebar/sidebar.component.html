@@ -52,4 +52,34 @@
       }
     </a>
   </mat-nav-list>
+
+  <div class="auth-section">
+    @if (auth?.isAuthenticated$ | async) {
+      <button
+        mat-icon-button
+        class="auth-btn"
+        (click)="logout()"
+        [matTooltip]="collapsed ? 'Logout' : ''"
+        matTooltipPosition="right"
+        aria-label="Logout">
+        <mat-icon aria-hidden="true">logout</mat-icon>
+        @if (!collapsed) {
+          <span class="auth-label">Logout</span>
+        }
+      </button>
+    } @else {
+      <button
+        mat-icon-button
+        class="auth-btn"
+        (click)="login()"
+        [matTooltip]="collapsed ? 'Login' : ''"
+        matTooltipPosition="right"
+        aria-label="Login">
+        <mat-icon aria-hidden="true">login</mat-icon>
+        @if (!collapsed) {
+          <span class="auth-label">Login</span>
+        }
+      </button>
+    }
+  </div>
 </nav>

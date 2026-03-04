@@ -42,6 +42,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Create environment files
+        run: bash scripts/create-env-files.sh
+        env:
+          AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
+          AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
+
       - name: Run unit tests
         run: npm test
 
@@ -78,6 +84,13 @@ jobs:
       - name: Install dependencies
         working-directory: AvilaContractingLLCGenerator
         run: npm ci
+
+      - name: Create environment files
+        working-directory: AvilaContractingLLCGenerator
+        run: bash scripts/create-env-files.sh
+        env:
+          AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
+          AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
 
       - name: Build Angular app
         working-directory: AvilaContractingLLCGenerator

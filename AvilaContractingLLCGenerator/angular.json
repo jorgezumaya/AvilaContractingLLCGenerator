@@ -42,10 +42,16 @@
           "configurations": {
             "production": {
               "baseHref": "/AvilaContractingLLCGenerator/",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "700kB",
+                  "maximumWarning": "850kB",
                   "maximumError": "1MB"
                 },
                 {

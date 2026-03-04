@@ -1,5 +1,6 @@
 .home-container {
   max-width: 1000px;
+  margin: 0 auto;
   padding: 32px 24px 48px;
 }
 
@@ -94,9 +95,18 @@
 }
 
 /* ===== Responsive ===== */
+/* Hamburger button is visible below 1280px — give content clearance */
+@media (max-width: 1279px) {
+  .home-container {
+    padding-top: 64px;
+  }
+}
+
 @media (max-width: 767px) {
   .home-container {
-    padding: 20px 16px 40px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 40px;
   }
 
   .hero {

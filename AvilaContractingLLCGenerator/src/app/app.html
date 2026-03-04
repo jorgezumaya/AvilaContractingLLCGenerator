@@ -27,6 +27,14 @@
       </button>
     }
 
+    @if (showLoginBanner()) {
+      <div class="login-toast" role="status" aria-live="polite">
+        <mat-icon>check_circle</mat-icon>
+        <span>Signed in successfully!</span>
+        <div class="toast-progress"></div>
+      </div>
+    }
+
     <router-outlet (activate)="closeSidenavIfMobile()" />
 
   </mat-sidenav-content>
