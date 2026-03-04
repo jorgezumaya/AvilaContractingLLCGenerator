@@ -1,12 +1,12 @@
 import { Component, inject, signal, OnInit, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
-import { concatMap } from 'rxjs/operators';
+import { concatMap, filter, pairwise } from 'rxjs/operators';
 import { AuthService } from '@auth0/auth0-angular';
 import { SidebarComponent } from './sidebar/sidebar.component';
 
@@ -46,10 +46,20 @@ export class App implements OnInit, OnDestroy {
           this.sidenavOpen.set(!mobile);
         });
 
+      // Navigate to originally-requested route after Auth0 login redirect.
       this.auth?.appState$.pipe(
         concatMap(appState => this.router.navigateByUrl(appState?.target ?? '/'))
-      ).subscribe(navigated => {
-        if (navigated) {
+      ).subscribe();
+
+      // Show banner when the router navigates away from /callback — that's
+      // the reliable signal that a login just completed.
+      this.router.events.pipe(
+        filter(e => e instanceof NavigationEnd),
+        pairwise(),
+      ).subscribe(([prev, curr]) => {
+        const fromCallback = (prev as NavigationEnd).urlAfterRedirects.startsWith('/callback');
+        const toOther = !(curr as NavigationEnd).urlAfterRedirects.startsWith('/callback');
+        if (fromCallback && toOther) {
           this.showLoginBanner.set(true);
           setTimeout(() => this.showLoginBanner.set(false), 4000);
         }
