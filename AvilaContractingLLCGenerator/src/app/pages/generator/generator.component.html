@@ -1,0 +1,19 @@
+<app-header
+  [docType]="EorI()"
+  (docTypeToggle)="toggleEorI()"
+  (selectedDateChange)="selectedDate.set($event)"
+></app-header>
+
+<div class="page-container">
+  <app-client-info [info]="clientInfo"></app-client-info>
+  <app-line-items [sections]="sections"></app-line-items>
+  <app-document-footer
+    [grandTotal]="grandTotal()"
+    [payableTo]="PAYABLE_TO"
+  ></app-document-footer>
+</div>
+
+<button mat-fab extended class="preview-fab" (click)="openPreview()" aria-label="Preview PDF document">
+  <mat-icon>picture_as_pdf</mat-icon>
+  Preview PDF
+</button>

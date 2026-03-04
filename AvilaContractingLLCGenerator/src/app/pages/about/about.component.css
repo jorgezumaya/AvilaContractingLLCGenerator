@@ -1,0 +1,85 @@
+.about-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 32px 24px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ===== Header ===== */
+.about-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 8px;
+}
+
+.about-logo {
+  height: 80px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.about-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1a237e;
+  margin: 0 0 4px;
+}
+
+.about-tagline {
+  color: #555;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* ===== Cards ===== */
+.about-card {
+  width: 100%;
+}
+
+/* Check circle icons in services list */
+mat-list mat-icon {
+  color: #1a237e !important;
+}
+
+/* Contact card links + icons */
+.contact-card mat-card-content p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0;
+  color: #333;
+}
+
+.contact-card mat-card-content mat-icon {
+  color: #1a237e;
+  flex-shrink: 0;
+}
+
+.contact-card mat-card-content a {
+  color: #1a237e;
+  text-decoration: none;
+}
+
+.contact-card mat-card-content a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 599px) {
+  .about-container {
+    padding: 16px 12px 40px;
+  }
+
+  .about-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .about-title {
+    font-size: 1.3rem;
+  }
+}

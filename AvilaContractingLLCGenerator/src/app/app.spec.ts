@@ -1,27 +1,27 @@
 import { TestBed } from "@angular/core/testing";
 import { vi } from "vitest";
+import { of } from "rxjs";
 import { App } from "./app";
-import { MatDialog } from "@angular/material/dialog";
-import { provideNativeDateAdapter } from "@angular/material/core";
-import { provideAnimations } from "@angular/platform-browser/animations";
+import { BreakpointObserver } from "@angular/cdk/layout";
 import { provideRouter } from "@angular/router";
-import { Status } from "./models/models";
+import { provideAnimations } from "@angular/platform-browser/animations";
 
-const dialogSpy = { open: vi.fn() };
+const mockBreakpointObserver = {
+  observe: vi.fn(() => of({ matches: false, breakpoints: {} })),
+};
 
-describe("App", () => {
+describe("App (sidenav shell)", () => {
   let app: App;
 
   beforeEach(async () => {
-    dialogSpy.open.mockClear();
+    mockBreakpointObserver.observe.mockClear();
 
     await TestBed.configureTestingModule({
       imports: [App],
       providers: [
         provideRouter([]),
-        provideNativeDateAdapter(),
         provideAnimations(),
-        { provide: MatDialog, useValue: dialogSpy },
+        { provide: BreakpointObserver, useValue: mockBreakpointObserver },
       ],
     }).compileComponents();
 
@@ -34,58 +34,84 @@ describe("App", () => {
     expect(app).toBeTruthy();
   });
 
-  describe("toggleEorI()", () => {
-    it("starts as Estimate", () => {
-      expect(app.EorI()).toBe(Status.E);
+  describe("initial signal state", () => {
+    it("sidenavOpen starts true (desktop default)", () => {
+      expect(app.sidenavOpen()).toBe(true);
     });
 
-    it("toggles to Invoice", () => {
-      app.toggleEorI();
-      expect(app.EorI()).toBe(Status.I);
+    it("sidebarCollapsed starts false", () => {
+      expect(app.sidebarCollapsed()).toBe(false);
     });
 
-    it("toggles back to Estimate on second call", () => {
-      app.toggleEorI();
-      app.toggleEorI();
-      expect(app.EorI()).toBe(Status.E);
+    it("isMobile starts false (BreakpointObserver returns non-match)", () => {
+      expect(app.isMobile()).toBe(false);
     });
   });
 
-  describe("grandTotal()", () => {
-    it("returns 0 with default empty sections", () => {
-      expect(app.grandTotal()).toBe(0);
+  describe("toggleSidenav() — desktop (isMobile=false)", () => {
+    it("collapses the sidebar width on first call", () => {
+      app.isMobile.set(false);
+      app.toggleSidenav();
+      expect(app.sidebarCollapsed()).toBe(true);
     });
 
-    it("sums all section item totals", () => {
-      app.sections = [
-        { name: "Master", items: [{ description: "Wall", sqFt: 100, totalAmount: 1000 }] },
-        { name: "Guest", items: [{ description: "Floor", sqFt: 50, totalAmount: 500 }] },
-      ];
-      expect(app.grandTotal()).toBe(1500);
+    it("expands back on second call", () => {
+      app.isMobile.set(false);
+      app.toggleSidenav();
+      app.toggleSidenav();
+      expect(app.sidebarCollapsed()).toBe(false);
+    });
+
+    it("does not change sidenavOpen on desktop", () => {
+      app.isMobile.set(false);
+      app.sidenavOpen.set(true);
+      app.toggleSidenav();
+      expect(app.sidenavOpen()).toBe(true);
     });
   });
 
-  describe("openPreview()", () => {
-    it("calls dialog.open with correct PreviewData", () => {
-      app.clientInfo = {
-        name: "Waters Construction LLC",
-        phone: "817-555-1234",
-        address: "Fort Worth, TX",
-        addressWorked: "324 Cutler St",
-      };
-      app.selectedDate.set(new Date(2026, 2, 2));
-      app.sections = [
-        { name: "Master", items: [{ description: "Wall", sqFt: 127, totalAmount: 1397 }] },
-      ];
+  describe("toggleSidenav() — mobile (isMobile=true)", () => {
+    it("opens the drawer when it was closed", () => {
+      app.isMobile.set(true);
+      app.sidenavOpen.set(false);
+      app.toggleSidenav();
+      expect(app.sidenavOpen()).toBe(true);
+    });
 
-      app.openPreview();
+    it("closes the drawer when it was open", () => {
+      app.isMobile.set(true);
+      app.sidenavOpen.set(true);
+      app.toggleSidenav();
+      expect(app.sidenavOpen()).toBe(false);
+    });
 
-      expect(dialogSpy.open).toHaveBeenCalled();
-      const [, config] = dialogSpy.open.mock.calls.at(-1)!;
-      expect(config.data.clientName).toBe("Waters Construction LLC");
-      expect(config.data.addressWorked).toBe("324 Cutler St");
-      expect(config.data.grandTotal).toBe(1397);
-      expect(config.data.docType).toBe(Status.E);
+    it("does not change sidebarCollapsed on mobile", () => {
+      app.isMobile.set(true);
+      app.sidebarCollapsed.set(false);
+      app.toggleSidenav();
+      expect(app.sidebarCollapsed()).toBe(false);
+    });
+  });
+
+  describe("closeSidenavIfMobile()", () => {
+    it("closes sidenavOpen when isMobile=true", () => {
+      app.isMobile.set(true);
+      app.sidenavOpen.set(true);
+      app.closeSidenavIfMobile();
+      expect(app.sidenavOpen()).toBe(false);
+    });
+
+    it("leaves sidenavOpen unchanged when isMobile=false", () => {
+      app.isMobile.set(false);
+      app.sidenavOpen.set(true);
+      app.closeSidenavIfMobile();
+      expect(app.sidenavOpen()).toBe(true);
+    });
+  });
+
+  describe("ngOnDestroy()", () => {
+    it("unsubscribes without error", () => {
+      expect(() => app.ngOnDestroy()).not.toThrow();
     });
   });
 });

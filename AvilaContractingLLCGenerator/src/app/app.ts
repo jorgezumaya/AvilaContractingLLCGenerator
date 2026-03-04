@@ -1,66 +1,68 @@
-import { Component, inject, signal } from "@angular/core";
-import { RouterOutlet } from "@angular/router";
-import { MatButtonModule } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
-import { MatDialog } from "@angular/material/dialog";
-import { DocumentService } from "./services/document.service";
-import { PdfPreviewComponent } from "./pdf-preview/pdf-preview.component";
-import { HeaderComponent } from "./header/header.component";
-import { ClientInfoComponent } from "./client-info/client-info.component";
-import { LineItemsComponent } from "./line-items/line-items.component";
-import { DocumentFooterComponent } from "./document-footer/document-footer.component";
-import { ClientInfo, PreviewData, RoomSection, Status } from "./models/models";
+import { Component, inject, signal, OnInit, OnDestroy, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Subscription } from 'rxjs';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @Component({
-  selector: "app-root",
+  selector: 'app-root',
   standalone: true,
   imports: [
     RouterOutlet,
+    MatSidenavModule,
     MatButtonModule,
     MatIconModule,
-    HeaderComponent,
-    ClientInfoComponent,
-    LineItemsComponent,
-    DocumentFooterComponent,
+    SidebarComponent,
   ],
-  templateUrl: "./app.html",
-  styleUrl: "./app.css",
+  templateUrl: './app.html',
+  styleUrl: './app.css',
 })
-export class App {
-  private dialog = inject(MatDialog);
-  private docService = inject(DocumentService);
+export class App implements OnInit, OnDestroy {
+  private breakpointObserver = inject(BreakpointObserver);
+  private platformId = inject(PLATFORM_ID);
+  private sub?: Subscription;
 
-  EorI = signal(Status.E);
-  selectedDate = signal<Date | null>(null);
+  /** Is the sidenav drawer panel open (controls mobile overlay) */
+  sidenavOpen = signal(true);
+  /** Is the sidebar in icon-only collapsed mode (desktop only) */
+  sidebarCollapsed = signal(false);
+  /** True on phones and small tablets */
+  isMobile = signal(false);
 
-  clientInfo: ClientInfo = { name: "", phone: "", address: "", addressWorked: "" };
-  sections: RoomSection[] = [this.docService.newSection()];
-
-  readonly PAYABLE_TO = "Avila Contracting LLC";
-
-  toggleEorI() {
-    this.EorI.set(this.EorI() === Status.E ? Status.I : Status.E);
+  ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.sub = this.breakpointObserver
+        .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium])
+        .subscribe(result => {
+          const mobile = result.matches;
+          this.isMobile.set(mobile);
+          // On mobile: close the overlay by default; on desktop: keep it open
+          this.sidenavOpen.set(!mobile);
+        });
+    }
   }
 
-  grandTotal(): number {
-    return this.docService.grandTotal(this.sections);
+  ngOnDestroy() {
+    this.sub?.unsubscribe();
   }
 
-  openPreview() {
-    this.dialog.open(PdfPreviewComponent, {
-      data: {
-        docType: this.EorI(),
-        date: this.selectedDate(),
-        clientName: this.clientInfo.name,
-        clientPhone: this.clientInfo.phone,
-        clientAddress: this.clientInfo.address,
-        addressWorked: this.clientInfo.addressWorked,
-        sections: this.sections,
-        grandTotal: this.grandTotal(),
-      } as PreviewData,
-      width: "90vw",
-      maxWidth: "900px",
-      maxHeight: "90vh",
-    });
+  toggleSidenav() {
+    if (this.isMobile()) {
+      // Mobile: slide the drawer in/out
+      this.sidenavOpen.set(!this.sidenavOpen());
+    } else {
+      // Desktop: collapse/expand the sidebar width
+      this.sidebarCollapsed.set(!this.sidebarCollapsed());
+    }
+  }
+
+  closeSidenavIfMobile() {
+    if (this.isMobile()) {
+      this.sidenavOpen.set(false);
+    }
   }
 }
