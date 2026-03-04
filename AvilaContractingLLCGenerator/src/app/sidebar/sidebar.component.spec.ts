@@ -1,8 +1,16 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { vi } from "vitest";
+import { of } from "rxjs";
 import { SidebarComponent } from "./sidebar.component";
 import { provideRouter } from "@angular/router";
 import { provideAnimations } from "@angular/platform-browser/animations";
+import { AuthService } from "@auth0/auth0-angular";
+
+const mockAuthService = {
+  isAuthenticated$: of(false),
+  loginWithRedirect: vi.fn(),
+  logout: vi.fn(),
+};
 
 describe("SidebarComponent", () => {
   let component: SidebarComponent;
@@ -12,7 +20,11 @@ describe("SidebarComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SidebarComponent],
-      providers: [provideRouter([]), provideAnimations()],
+      providers: [
+        provideRouter([]),
+        provideAnimations(),
+        { provide: AuthService, useValue: mockAuthService },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SidebarComponent);

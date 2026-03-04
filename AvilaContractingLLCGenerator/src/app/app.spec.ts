@@ -1,13 +1,18 @@
 import { TestBed } from "@angular/core/testing";
 import { vi } from "vitest";
-import { of } from "rxjs";
+import { of, EMPTY } from "rxjs";
 import { App } from "./app";
 import { BreakpointObserver } from "@angular/cdk/layout";
 import { provideRouter } from "@angular/router";
 import { provideAnimations } from "@angular/platform-browser/animations";
+import { AuthService } from "@auth0/auth0-angular";
 
 const mockBreakpointObserver = {
   observe: vi.fn(() => of({ matches: false, breakpoints: {} })),
+};
+
+const mockAuthService = {
+  appState$: EMPTY,
 };
 
 describe("App (sidenav shell)", () => {
@@ -22,6 +27,7 @@ describe("App (sidenav shell)", () => {
         provideRouter([]),
         provideAnimations(),
         { provide: BreakpointObserver, useValue: mockBreakpointObserver },
+        { provide: AuthService, useValue: mockAuthService },
       ],
     }).compileComponents();
 
