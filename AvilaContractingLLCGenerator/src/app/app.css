@@ -14,6 +14,56 @@
   position: relative;
 }
 
+/* ===== Login Success Toast ===== */
+.login-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  background: #2e7d32;
+  color: #fff;
+  border-radius: 8px;
+  padding: 14px 18px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  min-width: 220px;
+  overflow: hidden;
+  animation: toast-in 0.3s ease;
+}
+
+.login-toast mat-icon {
+  color: #fff !important;
+  flex-shrink: 0;
+}
+
+.login-toast span {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.7);
+  transform-origin: left;
+  animation: toast-progress 4s linear forwards;
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes toast-progress {
+  from { transform: scaleX(1); }
+  to   { transform: scaleX(0); }
+}
+
 /* ===== Mobile Hamburger ===== */
 /* Shown only on mobile (< 960px) via @if in template */
 .mobile-menu-btn {

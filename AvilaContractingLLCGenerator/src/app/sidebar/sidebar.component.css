@@ -58,3 +58,31 @@ mat-nav-list mat-icon {
 mat-nav-list span {
   color: #fff !important;
 }
+
+/* ===== Auth Section ===== */
+.auth-section {
+  margin-top: auto;
+  padding: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+}
+
+.auth-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  color: #fff !important;
+  border-radius: 4px;
+  padding: 0 8px;
+  transition: background-color 0.15s;
+}
+
+.auth-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.auth-label {
+  font-size: 14px;
+  white-space: nowrap;
+}

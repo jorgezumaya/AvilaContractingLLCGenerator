@@ -68,9 +68,18 @@ mat-list mat-icon {
 }
 
 /* ===== Responsive ===== */
+/* Hamburger button is visible below 1280px — give content clearance */
+@media (max-width: 1279px) {
+  .about-container {
+    padding-top: 64px;
+  }
+}
+
 @media (max-width: 599px) {
   .about-container {
-    padding: 16px 12px 40px;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-bottom: 40px;
   }
 
   .about-header {

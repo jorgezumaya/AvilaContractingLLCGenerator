@@ -1,11 +1,13 @@
 import { Component, inject, signal, OnInit, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
+import { concatMap, filter, pairwise } from 'rxjs/operators';
+import { AuthService } from '@auth0/auth0-angular';
 import { SidebarComponent } from './sidebar/sidebar.component';
 
 @Component({
@@ -24,14 +26,15 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 export class App implements OnInit, OnDestroy {
   private breakpointObserver = inject(BreakpointObserver);
   private platformId = inject(PLATFORM_ID);
+  private router = inject(Router);
+  // Optional: not provided on server (Auth0 is browser-only)
+  private auth = inject(AuthService, { optional: true });
   private sub?: Subscription;
 
-  /** Is the sidenav drawer panel open (controls mobile overlay) */
   sidenavOpen = signal(true);
-  /** Is the sidebar in icon-only collapsed mode (desktop only) */
   sidebarCollapsed = signal(false);
-  /** True on phones and small tablets */
   isMobile = signal(false);
+  showLoginBanner = signal(false);
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
@@ -40,9 +43,27 @@ export class App implements OnInit, OnDestroy {
         .subscribe(result => {
           const mobile = result.matches;
           this.isMobile.set(mobile);
-          // On mobile: close the overlay by default; on desktop: keep it open
           this.sidenavOpen.set(!mobile);
         });
+
+      // Navigate to originally-requested route after Auth0 login redirect.
+      this.auth?.appState$.pipe(
+        concatMap(appState => this.router.navigateByUrl(appState?.target ?? '/'))
+      ).subscribe();
+
+      // Show banner when the router navigates away from /callback — that's
+      // the reliable signal that a login just completed.
+      this.router.events.pipe(
+        filter(e => e instanceof NavigationEnd),
+        pairwise(),
+      ).subscribe(([prev, curr]) => {
+        const fromCallback = (prev as NavigationEnd).urlAfterRedirects.startsWith('/callback');
+        const toOther = !(curr as NavigationEnd).urlAfterRedirects.startsWith('/callback');
+        if (fromCallback && toOther) {
+          this.showLoginBanner.set(true);
+          setTimeout(() => this.showLoginBanner.set(false), 4000);
+        }
+      });
     }
   }
 
