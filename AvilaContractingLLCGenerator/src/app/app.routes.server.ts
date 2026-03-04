@@ -16,7 +16,9 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Client,
   },
   {
+    // Catch-all: generates an Angular shell index.html for any path
+    // (including the root redirect '' → /home) so GitHub Pages never 404s.
     path: '**',
-    renderMode: RenderMode.Prerender,
+    renderMode: RenderMode.Client,
   },
 ];
