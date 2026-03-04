@@ -35,6 +35,33 @@
   flex-shrink: 0;
 }
 
+/* ===== User Greeting ===== */
+.user-greeting {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  flex-shrink: 0;
+}
+
+.greeting-icon {
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.greeting-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* ===== Nav Links ===== */
 mat-nav-list a {
   color: #fff !important;
