@@ -1,0 +1,60 @@
+.sidebar-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #1a237e;
+  color: #fff;
+  width: 220px;
+  transition: width 0.25s ease;
+  overflow: hidden;
+}
+
+.sidebar-inner.collapsed {
+  width: 64px;
+}
+
+/* ===== Header ===== */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 8px;
+  min-height: 72px;
+  flex-shrink: 0;
+}
+
+.sidebar-logo {
+  height: 52px;
+  width: auto;
+  object-fit: contain;
+}
+
+.collapse-btn {
+  color: #fff !important;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* ===== Nav Links ===== */
+mat-nav-list a {
+  color: #fff !important;
+  border-left: 3px solid transparent;
+  transition: background-color 0.15s, border-left-color 0.15s;
+}
+
+mat-nav-list a:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+mat-nav-list a.active-link {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  border-left-color: #b71c1c;
+}
+
+mat-nav-list mat-icon {
+  color: #fff !important;
+}
+
+mat-nav-list span {
+  color: #fff !important;
+}

@@ -1,37 +1,27 @@
-/* ===== PAGE LAYOUT ===== */
-.page-container {
-  padding: 0 24px 100px;
-  max-width: 1100px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+/* ===== Sidenav Shell ===== */
+.sidenav-container {
+  height: 100vh;
 }
 
-/* ===== PREVIEW FAB ===== */
-.preview-fab {
+.app-sidenav {
+  border-right: none !important;
+  background: transparent !important;
+  /* Width is driven by .sidebar-inner in sidebar.component.css */
+}
+
+.sidenav-content {
+  overflow-y: auto;
+  position: relative;
+}
+
+/* ===== Mobile Hamburger ===== */
+/* Shown only on mobile (< 960px) via @if in template */
+.mobile-menu-btn {
   position: fixed;
-  bottom: 32px;
-  right: 32px;
-  z-index: 100;
-  background-color: #b71c1c !important;
+  top: 12px;
+  left: 12px;
+  z-index: 200;
+  background-color: #1a237e !important;
   color: #fff !important;
-  box-shadow: 0 4px 12px rgba(183, 28, 28, 0.4) !important;
-}
-
-.preview-fab mat-icon {
-  color: #fff !important;
-}
-
-/* ===== Responsive ===== */
-@media (max-width: 768px) {
-  .page-container {
-    padding: 0 12px 100px;
-    gap: 16px;
-  }
-
-  .preview-fab {
-    bottom: 20px;
-    right: 16px;
-  }
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }

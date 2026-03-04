@@ -1,0 +1,55 @@
+<nav class="sidebar-inner" [class.collapsed]="collapsed" aria-label="Main navigation">
+  <div class="sidebar-header">
+    @if (!collapsed) {
+      <img src="avilaLLC.png" alt="Avila Contracting LLC logo" class="sidebar-logo" />
+    }
+    <button
+      mat-icon-button
+      class="collapse-btn"
+      (click)="toggleCollapse.emit()"
+      [attr.aria-label]="collapsed ? 'Expand sidebar navigation' : 'Collapse sidebar navigation'">
+      <mat-icon>{{ collapsed ? 'menu' : 'menu_open' }}</mat-icon>
+    </button>
+  </div>
+
+  <mat-nav-list>
+    <a
+      mat-list-item
+      routerLink="/home"
+      routerLinkActive="active-link"
+      [matTooltip]="collapsed ? 'Home' : ''"
+      matTooltipPosition="right"
+      aria-label="Home">
+      <mat-icon matListItemIcon aria-hidden="true">home</mat-icon>
+      @if (!collapsed) {
+        <span matListItemTitle>Home</span>
+      }
+    </a>
+
+    <a
+      mat-list-item
+      routerLink="/about"
+      routerLinkActive="active-link"
+      [matTooltip]="collapsed ? 'About Us' : ''"
+      matTooltipPosition="right"
+      aria-label="About Us">
+      <mat-icon matListItemIcon aria-hidden="true">info</mat-icon>
+      @if (!collapsed) {
+        <span matListItemTitle>About Us</span>
+      }
+    </a>
+
+    <a
+      mat-list-item
+      routerLink="/generator"
+      routerLinkActive="active-link"
+      [matTooltip]="collapsed ? 'Generator' : ''"
+      matTooltipPosition="right"
+      aria-label="Document Generator">
+      <mat-icon matListItemIcon aria-hidden="true">description</mat-icon>
+      @if (!collapsed) {
+        <span matListItemTitle>Generator</span>
+      }
+    </a>
+  </mat-nav-list>
+</nav>
