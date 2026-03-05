@@ -63,6 +63,19 @@
           <span matListItemTitle>Generator</span>
         }
       </a>
+
+      <a
+        mat-list-item
+        routerLink="/contacts"
+        routerLinkActive="active-link"
+        [matTooltip]="collapsed ? 'Contacts' : ''"
+        matTooltipPosition="right"
+        aria-label="Contacts">
+        <mat-icon matListItemIcon aria-hidden="true">contacts</mat-icon>
+        @if (!collapsed) {
+          <span matListItemTitle>Contacts</span>
+        }
+      </a>
     }
   </mat-nav-list>
 

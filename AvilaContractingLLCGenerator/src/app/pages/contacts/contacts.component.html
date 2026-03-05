@@ -1,0 +1,85 @@
+<div class="contacts-page">
+  <div class="page-header">
+    <h1>Contacts</h1>
+    <button mat-raised-button color="primary" (click)="startAdd()" aria-label="Add new contact">
+      <mat-icon>person_add</mat-icon>
+      Add Contact
+    </button>
+  </div>
+
+  @if (adding()) {
+    <mat-card class="contact-form-card" appearance="outlined">
+      <mat-card-content>
+        <div class="contact-form">
+          <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput [(ngModel)]="form.name" placeholder="Client name" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Phone</mat-label>
+            <input matInput [(ngModel)]="form.phone" placeholder="817-822-5200" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Address</mat-label>
+            <input matInput [(ngModel)]="form.address" placeholder="City, State ZIP" />
+          </mat-form-field>
+        </div>
+        <div class="form-actions">
+          <button mat-raised-button color="primary" (click)="saveAdd()">Save</button>
+          <button mat-button (click)="cancelAdd()">Cancel</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  @if (contacts().length === 0 && !adding()) {
+    <p class="empty-msg">No contacts yet. Add your first client above!</p>
+  }
+
+  <div class="contact-list">
+    @for (contact of contacts(); track contact.id) {
+      @if (editingId() === contact.id) {
+        <mat-card class="contact-card" appearance="outlined">
+          <mat-card-content>
+            <div class="contact-form">
+              <mat-form-field appearance="outline">
+                <mat-label>Name</mat-label>
+                <input matInput [(ngModel)]="editForm.name" />
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Phone</mat-label>
+                <input matInput [(ngModel)]="editForm.phone" />
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Address</mat-label>
+                <input matInput [(ngModel)]="editForm.address" />
+              </mat-form-field>
+            </div>
+            <div class="form-actions">
+              <button mat-raised-button color="primary" (click)="saveEdit(contact.id!)">Save</button>
+              <button mat-button (click)="cancelEdit()">Cancel</button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      } @else {
+        <mat-card class="contact-card" appearance="outlined">
+          <mat-card-content class="contact-row">
+            <div class="contact-info">
+              <span class="contact-name">{{ contact.name }}</span>
+              <span class="contact-detail">{{ contact.phone }}</span>
+              <span class="contact-detail">{{ contact.address }}</span>
+            </div>
+            <div class="contact-actions">
+              <button mat-icon-button (click)="startEdit(contact)" aria-label="Edit contact">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="remove(contact.id!)" aria-label="Delete contact">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      }
+    }
+  </div>
+</div>

@@ -31,3 +31,10 @@ export interface PreviewData {
   sections: RoomSection[];
   grandTotal: number;
 }
+
+export interface Contact {
+  id?: string;
+  name: string;
+  phone: string;
+  address: string;
+}
