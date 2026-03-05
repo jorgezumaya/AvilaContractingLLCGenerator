@@ -3,6 +3,7 @@ import { authGuardFn } from '@auth0/auth0-angular';
 import { homeResolver } from './resolvers/home.resolver';
 import { aboutResolver } from './resolvers/about.resolver';
 import { generatorResolver } from './resolvers/generator.resolver';
+import { contactsResolver } from './resolvers/contacts.resolver';
 
 export const routes: Routes = [
   {
@@ -26,6 +27,14 @@ export const routes: Routes = [
       import('./pages/generator/generator.component').then(m => m.GeneratorComponent),
     resolve: { data: generatorResolver },
     title: 'Generator — Avila Contracting LLC',
+  },
+  {
+    path: 'contacts',
+    canActivate: [authGuardFn],
+    loadComponent: () =>
+      import('./pages/contacts/contacts.component').then(m => m.ContactsComponent),
+    resolve: { data: contactsResolver },
+    title: 'Contacts — Avila Contracting LLC',
   },
   {
     // Auth0 redirect_uri lands here. No guard — auth0-angular reads ?code & ?state

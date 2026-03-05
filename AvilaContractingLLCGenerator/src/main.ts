@@ -2,6 +2,8 @@ import { mergeApplicationConfig } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideAuth0 } from '@auth0/auth0-angular';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { appConfig } from './app/app.config';
 import { environment } from './environments/environment';
 import { App } from './app/app';
@@ -16,5 +18,7 @@ bootstrapApplication(App, mergeApplicationConfig(appConfig, {
         redirect_uri: environment.auth0RedirectUri,
       },
     }),
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideFirestore(() => getFirestore()),
   ],
 })).catch((err) => console.error(err));

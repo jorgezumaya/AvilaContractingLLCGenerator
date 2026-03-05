@@ -92,7 +92,7 @@ describe("SidebarComponent", () => {
   });
 
   describe("navigation links (unauthenticated)", () => {
-    it("renders 2 nav links (no Generator)", () => {
+    it("renders 2 nav links (no Generator or Contacts)", () => {
       const links = el.querySelectorAll("a[mat-list-item]");
       expect(links.length).toBe(2);
     });
@@ -120,6 +120,14 @@ describe("SidebarComponent", () => {
       );
       expect(genLink).toBeUndefined();
     });
+
+    it("Contacts link is hidden", () => {
+      const links = el.querySelectorAll("a[mat-list-item]");
+      const contactsLink = Array.from(links).find(l =>
+        l.getAttribute("aria-label")?.toLowerCase().includes("contacts")
+      );
+      expect(contactsLink).toBeUndefined();
+    });
   });
 
   describe("navigation links (authenticated)", () => {
@@ -139,9 +147,9 @@ describe("SidebarComponent", () => {
       authEl = authFixture.nativeElement as HTMLElement;
     });
 
-    it("renders 3 nav links including Generator", () => {
+    it("renders 4 nav links including Generator and Contacts", () => {
       const links = authEl.querySelectorAll("a[mat-list-item]");
-      expect(links.length).toBe(3);
+      expect(links.length).toBe(4);
     });
 
     it("Generator link has aria-label", () => {
@@ -150,6 +158,14 @@ describe("SidebarComponent", () => {
         l.getAttribute("aria-label")?.toLowerCase().includes("generator")
       );
       expect(genLink).toBeTruthy();
+    });
+
+    it("Contacts link has aria-label", () => {
+      const links = authEl.querySelectorAll("a[mat-list-item]");
+      const contactsLink = Array.from(links).find(l =>
+        l.getAttribute("aria-label")?.toLowerCase().includes("contacts")
+      );
+      expect(contactsLink).toBeTruthy();
     });
   });
 });

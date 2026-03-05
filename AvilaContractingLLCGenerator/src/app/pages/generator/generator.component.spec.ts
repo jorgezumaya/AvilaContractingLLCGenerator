@@ -1,13 +1,16 @@
 import { TestBed } from "@angular/core/testing";
 import { vi } from "vitest";
+import { of } from "rxjs";
 import { GeneratorComponent } from "./generator.component";
 import { MatDialog } from "@angular/material/dialog";
 import { provideNativeDateAdapter } from "@angular/material/core";
 import { provideAnimations } from "@angular/platform-browser/animations";
 import { provideRouter } from "@angular/router";
 import { Status } from "../../models/models";
+import { ContactsService } from "../../services/contacts.service";
 
 const dialogSpy = { open: vi.fn() };
+const mockContactsService = { getAll: vi.fn().mockReturnValue(of([])) };
 
 describe("GeneratorComponent", () => {
   let component: GeneratorComponent;
@@ -22,6 +25,7 @@ describe("GeneratorComponent", () => {
         provideNativeDateAdapter(),
         provideAnimations(),
         { provide: MatDialog, useValue: dialogSpy },
+        { provide: ContactsService, useValue: mockContactsService },
       ],
     }).compileComponents();
 

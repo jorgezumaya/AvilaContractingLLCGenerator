@@ -9,8 +9,15 @@
         <input
           matInput
           [(ngModel)]="info.name"
+          (ngModelChange)="onNameInput($event)"
+          [matAutocomplete]="auto"
           placeholder="e.g. Waters Construction LLC"
         />
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onContactSelected($event)">
+          @for (contact of filteredContacts(); track contact.id) {
+            <mat-option [value]="contact.name">{{ contact.name }}</mat-option>
+          }
+        </mat-autocomplete>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
@@ -18,7 +25,7 @@
         <input
           matInput
           [(ngModel)]="info.phone"
-          placeholder="817-822-5200"
+          placeholder="817-682-6969"
           maxlength="12"
           pattern="[0-9\-]*"
           inputmode="numeric"
