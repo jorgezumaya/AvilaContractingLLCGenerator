@@ -50,18 +50,20 @@
       }
     </a>
 
-    <a
-      mat-list-item
-      routerLink="/generator"
-      routerLinkActive="active-link"
-      [matTooltip]="collapsed ? 'Generator' : ''"
-      matTooltipPosition="right"
-      aria-label="Document Generator">
-      <mat-icon matListItemIcon aria-hidden="true">description</mat-icon>
-      @if (!collapsed) {
-        <span matListItemTitle>Generator</span>
-      }
-    </a>
+    @if (auth?.isAuthenticated$ | async) {
+      <a
+        mat-list-item
+        routerLink="/generator"
+        routerLinkActive="active-link"
+        [matTooltip]="collapsed ? 'Generator' : ''"
+        matTooltipPosition="right"
+        aria-label="Document Generator">
+        <mat-icon matListItemIcon aria-hidden="true">description</mat-icon>
+        @if (!collapsed) {
+          <span matListItemTitle>Generator</span>
+        }
+      </a>
+    }
   </mat-nav-list>
 
   <div class="auth-section">

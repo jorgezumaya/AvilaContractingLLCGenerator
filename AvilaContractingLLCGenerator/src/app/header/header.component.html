@@ -22,6 +22,7 @@
         matInput
         [matDatepicker]="picker"
         [(ngModel)]="date"
+        (input)="onDateInput($event)"
         (dateChange)="onDateChange($event.value)"
         aria-labelledby="date-select-label"
       />
