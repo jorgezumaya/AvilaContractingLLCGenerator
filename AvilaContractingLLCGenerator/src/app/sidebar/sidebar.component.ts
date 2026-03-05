@@ -34,6 +34,6 @@ export class SidebarComponent {
   }
 
   logout(): void {
-    this.auth?.logout({ logoutParams: { returnTo: window.location.origin } });
+    this.auth?.logout({ logoutParams: { returnTo: document.baseURI } });
   }
 }
