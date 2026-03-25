@@ -12,6 +12,9 @@
 .sidenav-content {
   overflow-y: auto;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
 }
 
 /* ===== Login Success Toast ===== */

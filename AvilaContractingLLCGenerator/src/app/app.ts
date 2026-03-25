@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 import { concatMap, filter, pairwise } from 'rxjs/operators';
 import { AuthService } from '@auth0/auth0-angular';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { SiteFooterComponent } from './site-footer/site-footer.component';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     MatButtonModule,
     MatIconModule,
     SidebarComponent,
+    SiteFooterComponent,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',

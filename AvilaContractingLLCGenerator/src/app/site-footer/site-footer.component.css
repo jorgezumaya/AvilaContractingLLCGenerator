@@ -1,0 +1,165 @@
+.site-footer {
+  background-color: #1a237e;
+  color: #fff;
+  margin-top: auto;
+}
+
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 2.5rem;
+  padding: 2rem 2.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ===== Brand ===== */
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  min-width: 150px;
+}
+
+.footer-logo {
+  height: 64px;
+  width: auto;
+  object-fit: contain;
+}
+
+.footer-business-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.02em;
+}
+
+/* ===== Sections ===== */
+.footer-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 160px;
+}
+
+.footer-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 0.25rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.footer-section-title mat-icon {
+  font-size: 1rem;
+  width: 1rem;
+  height: 1rem;
+  line-height: 1rem;
+}
+
+/* ===== Hours List ===== */
+.hours-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.hours-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.day {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.hours-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+  background-color: #b71c1c;
+  padding: 0.1rem 0.45rem;
+  border-radius: 3px;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+/* ===== Contact Link ===== */
+.footer-link {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.footer-link:hover {
+  color: #fff;
+}
+
+.inline-icon {
+  font-size: 1.1rem !important;
+  width: 1.1rem !important;
+  height: 1.1rem !important;
+  line-height: 1.1rem !important;
+}
+
+/* ===== Payment Methods ===== */
+.payment-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.payment-item {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.payment-icon {
+  font-size: 1.25rem !important;
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+  line-height: 1.25rem !important;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ===== Bottom Bar ===== */
+.footer-bottom {
+  text-align: center;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.4);
+  padding: 0.65rem 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .footer-inner {
+    padding: 1.5rem 1.25rem;
+    gap: 1.75rem;
+  }
+
+  .footer-brand {
+    width: 100%;
+  }
+}
