@@ -1,0 +1,70 @@
+<section class="gallery-section" aria-label="Our Work">
+  <h2 class="gallery-heading">Our Work</h2>
+
+  @if (loading()) {
+    <div class="gallery-loading">
+      <mat-spinner diameter="48" />
+    </div>
+  } @else if (jobs().length === 0) {
+    <p class="gallery-empty">Photos coming soon — check back shortly!</p>
+  } @else {
+    <div
+      class="carousel"
+      (mouseenter)="pauseTimer()"
+      (mouseleave)="resumeTimer()"
+      role="region"
+      aria-label="Job photo carousel">
+
+      <!-- Main image -->
+      <div class="carousel-image-wrap">
+        <img
+          [src]="currentJob()!.imageUrl"
+          [alt]="currentJob()!.title"
+          class="carousel-image" />
+
+        <!-- Overlay caption -->
+        <div class="carousel-caption">
+          <span class="caption-title">{{ currentJob()!.title }}</span>
+          @if (currentJob()!.description) {
+            <span class="caption-desc">{{ currentJob()!.description }}</span>
+          }
+          <span class="caption-category">{{ currentJob()!.category }}</span>
+        </div>
+
+        <!-- Prev / Next arrows -->
+        @if (jobs().length > 1) {
+          <button
+            mat-icon-button
+            class="carousel-btn carousel-prev"
+            (click)="prev()"
+            aria-label="Previous photo">
+            <mat-icon>chevron_left</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            class="carousel-btn carousel-next"
+            (click)="next()"
+            aria-label="Next photo">
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+        }
+      </div>
+
+      <!-- Dot indicators -->
+      @if (jobs().length > 1) {
+        <div class="carousel-dots" role="tablist" aria-label="Select photo">
+          @for (job of jobs(); track job.id; let i = $index) {
+            <button
+              class="dot"
+              [class.active]="i === currentIndex()"
+              (click)="goTo(i)"
+              role="tab"
+              [attr.aria-selected]="i === currentIndex()"
+              [attr.aria-label]="'Photo ' + (i + 1)">
+            </button>
+          }
+        </div>
+      }
+    </div>
+  }
+</section>

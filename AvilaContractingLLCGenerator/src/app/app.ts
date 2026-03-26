@@ -10,6 +10,7 @@ import { concatMap, filter, pairwise } from 'rxjs/operators';
 import { AuthService } from '@auth0/auth0-angular';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { SiteFooterComponent } from './site-footer/site-footer.component';
+import { FirebaseAuthService } from './services/firebase-auth.service';
 
 @Component({
   selector: 'app-root',
@@ -31,6 +32,7 @@ export class App implements OnInit, OnDestroy {
   private router = inject(Router);
   // Optional: not provided on server (Auth0 is browser-only)
   private auth = inject(AuthService, { optional: true });
+  private firebaseAuth = inject(FirebaseAuthService);
   private sub?: Subscription;
 
   sidenavOpen = signal(true);
@@ -47,6 +49,9 @@ export class App implements OnInit, OnDestroy {
           this.isMobile.set(mobile);
           this.sidenavOpen.set(!mobile);
         });
+
+      // Sync Firebase Auth with Auth0 session.
+      this.firebaseAuth.initialize();
 
       // Navigate to originally-requested route after Auth0 login redirect.
       this.auth?.appState$.pipe(

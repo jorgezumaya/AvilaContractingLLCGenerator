@@ -20,10 +20,11 @@ Jorge's uncle owns and operates the tile contracting business. The app is built 
 |---|---|
 | Framework | Angular 21 (standalone components, signals) |
 | UI | Angular Material 21 (Material 3, magenta/violet palette) |
-| Auth | Auth0 (`@auth0/auth0-angular`) |
-| Database | Firebase / Firestore |
+| Auth | Auth0 (`@auth0/auth0-angular`) → Firebase custom token via `/api/firebase-token` |
+| Database | Firebase / Firestore (contacts) |
+| Storage | Firebase Storage (job photos in `jobs/` folder) |
 | Testing | Vitest 4 + Angular TestBed (`@analogjs/vitest-angular`) |
-| Rendering | Angular SSR (Express) |
+| Rendering | Angular SSR (Express + `src/server.ts`) |
 | Language | TypeScript 5.9 |
 
 **Primary brand colors:**
@@ -76,6 +77,18 @@ const mockAuth = {
 
 // --- Mocking Firebase services ---
 // Always provide a hand-rolled mock object; never import real Firebase in tests.
+// For Auth-aware services mock authState:
+vi.mock('@angular/fire/auth', async (imp) => ({
+  ...(await imp<typeof import('@angular/fire/auth')>()),
+  authState: vi.fn(() => of({ uid: 'user-123' })),
+}));
+// For Storage-based services mock ref/listAll/getDownloadURL:
+vi.mock('@angular/fire/storage', async (imp) => ({
+  ...(await imp<typeof import('@angular/fire/storage')>()),
+  ref: vi.fn(() => ({})),
+  listAll: vi.fn(() => Promise.resolve({ items: [], prefixes: [] })),
+  getDownloadURL: vi.fn(() => Promise.resolve('https://example.com/img.jpg')),
+}));
 
 // --- Signals / inputs ---
 fixture.componentRef.setInput('inputName', value);
@@ -150,7 +163,10 @@ src/app/
 - The document generator produces **estimates and invoices** as PDFs scoped to these services
 
 ### Business Facts
-- Contacts are stored in **Firestore** via `ContactsService`
+- Contacts are stored in **Firestore** via `ContactsService` (requires Firebase Auth)
+- Job photos are stored in **Firebase Storage** under `jobs/` folder — upload photos there to make them appear in the gallery automatically. No Firestore documents needed.
+- Auth flow: Auth0 login → `FirebaseAuthService.initialize()` exchanges the Auth0 ID token for a Firebase custom token via `POST /api/firebase-token` (Express) → `signInWithCustomToken()` → Firestore rules allow `request.auth != null`
+- The `/api/firebase-token` endpoint validates JWT issuer AND audience (`AUTH0_CLIENT_ID`) and has a 10-req/15-min rate limit per IP
 - Payment methods accepted: **Cash, Check, Zelle**
 - Operating hours: **24/7, every day of the week**
 - Business phone: **+1 (984) 202-6576**

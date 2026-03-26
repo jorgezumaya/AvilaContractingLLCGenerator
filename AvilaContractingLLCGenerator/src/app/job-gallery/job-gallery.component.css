@@ -1,0 +1,141 @@
+.gallery-section {
+  margin: 40px 0 32px;
+}
+
+.gallery-heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a237e;
+  text-align: center;
+  margin: 0 0 20px;
+  letter-spacing: 0.01em;
+}
+
+/* ===== Loading / Empty ===== */
+.gallery-loading {
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+.gallery-empty {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  padding: 24px 0;
+}
+
+/* ===== Carousel ===== */
+.carousel {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+  background: #111;
+}
+
+.carousel-image-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.4s ease;
+}
+
+/* ===== Caption overlay ===== */
+.carousel-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 28px 20px 16px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.72));
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.caption-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.caption-desc {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.caption-category {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #fff;
+  background-color: #b71c1c;
+  padding: 2px 8px;
+  border-radius: 3px;
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
+/* ===== Arrows ===== */
+.carousel-btn {
+  position: absolute !important;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.45) !important;
+  color: #fff !important;
+  transition: background 0.2s;
+  z-index: 2;
+}
+
+.carousel-btn:hover {
+  background: rgba(0, 0, 0, 0.7) !important;
+}
+
+.carousel-prev { left: 8px; }
+.carousel-next { right: 8px; }
+
+/* ===== Dot indicators ===== */
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 0 8px;
+  background: #1a237e;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.dot.active {
+  background: #fff;
+  transform: scale(1.25);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .carousel-image-wrap {
+    aspect-ratio: 4 / 3;
+  }
+
+  .caption-title {
+    font-size: 0.95rem;
+  }
+}
