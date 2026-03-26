@@ -44,6 +44,14 @@
             "allowedCommonJsDependencies": [
               "@grpc/grpc-js",
               "@grpc/proto-loader"
+            ],
+            "externalDependencies": [
+              "firebase-admin",
+              "firebase-admin/app",
+              "firebase-admin/auth",
+              "jose",
+              "dotenv",
+              "dotenv/config"
             ]
           },
           "configurations": {
@@ -91,7 +99,10 @@
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test"
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "tsconfig.spec.json"
+          }
         }
       }
     }

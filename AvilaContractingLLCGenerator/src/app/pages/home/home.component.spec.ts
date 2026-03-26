@@ -1,7 +1,10 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { vi } from "vitest";
+import { of } from "rxjs";
 import { HomeComponent } from "./home.component";
 import { provideRouter } from "@angular/router";
 import { provideAnimations } from "@angular/platform-browser/animations";
+import { JobsService } from "../../services/jobs.service";
 
 describe("HomeComponent", () => {
   let component: HomeComponent;
@@ -11,7 +14,11 @@ describe("HomeComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HomeComponent],
-      providers: [provideRouter([]), provideAnimations()],
+      providers: [
+        provideRouter([]),
+        provideAnimations(),
+        { provide: JobsService, useValue: { getAll: vi.fn(() => of([])) } },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HomeComponent);
