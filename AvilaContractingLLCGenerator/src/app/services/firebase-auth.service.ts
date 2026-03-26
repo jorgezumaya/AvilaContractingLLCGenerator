@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Auth, signInWithCustomToken, signOut } from '@angular/fire/auth';
 import { AuthService } from '@auth0/auth0-angular';
 import { filter, switchMap, tap } from 'rxjs/operators';
+import { from } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class FirebaseAuthService {
@@ -30,9 +31,7 @@ export class FirebaseAuthService {
           tap(res => console.log('[FBAuth] /api/firebase-token response:', res)),
         )
       ),
-      switchMap(({ firebaseToken }) =>
-        signInWithCustomToken(this.firebaseAuth, firebaseToken)
-      ),
+      switchMap(({ firebaseToken }) => from(this._signInWithCustomToken(firebaseToken))),
       tap(cred => console.log('[FBAuth] Firebase signed in:', cred.user?.uid)),
     ).subscribe({
       error: err => console.error('[FBAuth] FAILED:', err),
@@ -40,7 +39,15 @@ export class FirebaseAuthService {
 
     this.auth0.isAuthenticated$.pipe(
       filter(authenticated => !authenticated),
-      switchMap(() => signOut(this.firebaseAuth)),
+      switchMap(() => from(this._signOut())),
     ).subscribe();
+  }
+
+  protected _signInWithCustomToken(token: string) {
+    return signInWithCustomToken(this.firebaseAuth, token);
+  }
+
+  protected _signOut() {
+    return signOut(this.firebaseAuth);
   }
 }

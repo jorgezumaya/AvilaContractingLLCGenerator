@@ -1,5 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Storage, ref, listAll, getDownloadURL } from '@angular/fire/storage';
+import type { StorageReference } from '@angular/fire/storage';
 import { from, Observable } from 'rxjs';
 import { Job } from '../models/models';
 
@@ -23,13 +24,13 @@ export class JobsService {
    * No Firestore documents needed — just upload a photo and it appears.
    */
   getAll(): Observable<Job[]> {
-    const folderRef = ref(this.storage, JOBS_FOLDER);
+    const folderRef = this._folderRef();
 
     return from(
-      listAll(folderRef).then(result =>
+      this._listAll(folderRef).then(result =>
         Promise.all(
           result.items.map(async item => {
-            const imageUrl = await getDownloadURL(item);
+            const imageUrl = await this._getDownloadURL(item);
             return {
               id: item.name,
               title: titleFromFilename(item.name),
@@ -43,5 +44,17 @@ export class JobsService {
         )
       )
     );
+  }
+
+  protected _folderRef(): StorageReference {
+    return ref(this.storage, JOBS_FOLDER);
+  }
+
+  protected _listAll(folderRef: StorageReference) {
+    return listAll(folderRef);
+  }
+
+  protected _getDownloadURL(item: StorageReference) {
+    return getDownloadURL(item);
   }
 }

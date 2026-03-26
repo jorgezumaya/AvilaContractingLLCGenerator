@@ -6,6 +6,7 @@ import { BreakpointObserver } from "@angular/cdk/layout";
 import { provideRouter } from "@angular/router";
 import { provideAnimations } from "@angular/platform-browser/animations";
 import { AuthService } from "@auth0/auth0-angular";
+import { FirebaseAuthService } from './services/firebase-auth.service';
 
 const mockBreakpointObserver = {
   observe: vi.fn(() => of({ matches: false, breakpoints: {} })),
@@ -28,6 +29,7 @@ describe("App (sidenav shell)", () => {
         provideAnimations(),
         { provide: BreakpointObserver, useValue: mockBreakpointObserver },
         { provide: AuthService, useValue: mockAuthService },
+        { provide: FirebaseAuthService, useValue: { initialize: vi.fn() } },
       ],
     }).compileComponents();
 

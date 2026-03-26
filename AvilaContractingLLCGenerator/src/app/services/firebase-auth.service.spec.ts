@@ -1,11 +1,11 @@
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { PLATFORM_ID } from '@angular/core';
 import { vi } from 'vitest';
 import { BehaviorSubject, of } from 'rxjs';
 import { FirebaseAuthService } from './firebase-auth.service';
 import { Auth } from '@angular/fire/auth';
 import { AuthService } from '@auth0/auth0-angular';
 import { HttpClient } from '@angular/common/http';
-import * as firebaseAuth from '@angular/fire/auth';
 
 const makeAuth0Mock = (authenticated: boolean, idToken = 'mock.id.token') => ({
   isLoading$: of(false),
@@ -16,13 +16,21 @@ const makeAuth0Mock = (authenticated: boolean, idToken = 'mock.id.token') => ({
 const mockFirebaseAuth = {} as Auth;
 const mockHttp = { post: vi.fn(() => of({ firebaseToken: 'fb-custom-token' })) };
 
-describe('FirebaseAuthService', () => {
-  let service: FirebaseAuthService;
+class TestFirebaseAuthService extends FirebaseAuthService {
+  signInSpy = vi.fn().mockResolvedValue({ user: { uid: 'test-uid' } });
+  signOutSpy = vi.fn().mockResolvedValue(undefined);
 
-  beforeEach(() => {
-    vi.spyOn(firebaseAuth, 'signInWithCustomToken').mockResolvedValue({} as any);
-    vi.spyOn(firebaseAuth, 'signOut').mockResolvedValue();
-  });
+  protected override _signInWithCustomToken(token: string) {
+    return this.signInSpy(token);
+  }
+
+  protected override _signOut() {
+    return this.signOutSpy();
+  }
+}
+
+describe('FirebaseAuthService', () => {
+  let service: TestFirebaseAuthService;
 
   afterEach(() => vi.clearAllMocks());
 
@@ -33,9 +41,10 @@ describe('FirebaseAuthService', () => {
         { provide: AuthService, useValue: auth0Mock },
         { provide: Auth, useValue: mockFirebaseAuth },
         { provide: HttpClient, useValue: mockHttp },
+        { provide: FirebaseAuthService, useClass: TestFirebaseAuthService },
       ],
     });
-    service = TestBed.inject(FirebaseAuthService);
+    service = TestBed.inject(FirebaseAuthService) as TestFirebaseAuthService;
     return { auth0Mock };
   }
 
@@ -45,42 +54,35 @@ describe('FirebaseAuthService', () => {
   });
 
   describe('initialize() — authenticated user', () => {
-    it('calls POST /api/firebase-token with the raw Auth0 ID token', fakeAsync(() => {
+    it('calls POST /api/firebase-token with the raw Auth0 ID token', () => {
       setup(true);
       service.initialize();
-      tick();
       expect(mockHttp.post).toHaveBeenCalledWith(
         '/api/firebase-token',
         {},
         { headers: { Authorization: 'Bearer mock.id.token' } }
       );
-    }));
+    });
 
-    it('calls signInWithCustomToken with the returned Firebase token', fakeAsync(() => {
+    it('calls _signInWithCustomToken with the returned Firebase token', () => {
       setup(true);
       service.initialize();
-      tick();
-      expect(firebaseAuth.signInWithCustomToken).toHaveBeenCalledWith(
-        mockFirebaseAuth,
-        'fb-custom-token'
-      );
-    }));
+      expect(service.signInSpy).toHaveBeenCalledWith('fb-custom-token');
+    });
   });
 
   describe('initialize() — unauthenticated user', () => {
-    it('calls signOut when Auth0 is not authenticated', fakeAsync(() => {
+    it('calls _signOut when Auth0 is not authenticated', () => {
       setup(false);
       service.initialize();
-      tick();
-      expect(firebaseAuth.signOut).toHaveBeenCalledWith(mockFirebaseAuth);
-    }));
+      expect(service.signOutSpy).toHaveBeenCalled();
+    });
 
-    it('does not call POST /api/firebase-token', fakeAsync(() => {
+    it('does not call POST /api/firebase-token', () => {
       setup(false);
       service.initialize();
-      tick();
       expect(mockHttp.post).not.toHaveBeenCalled();
-    }));
+    });
   });
 
   describe('initialize() — SSR (non-browser)', () => {
@@ -91,11 +93,11 @@ describe('FirebaseAuthService', () => {
           { provide: AuthService, useValue: auth0Mock },
           { provide: Auth, useValue: mockFirebaseAuth },
           { provide: HttpClient, useValue: mockHttp },
-          // Simulate server platform
-          { provide: 'PLATFORM_ID', useValue: 'server' },
+          { provide: PLATFORM_ID, useValue: 'server' },
+          { provide: FirebaseAuthService, useClass: TestFirebaseAuthService },
         ],
       });
-      service = TestBed.inject(FirebaseAuthService);
+      service = TestBed.inject(FirebaseAuthService) as TestFirebaseAuthService;
       service.initialize();
       expect(mockHttp.post).not.toHaveBeenCalled();
     });

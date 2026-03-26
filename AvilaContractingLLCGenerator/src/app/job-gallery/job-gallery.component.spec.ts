@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { vi } from 'vitest';
 import { of } from 'rxjs';
 import { JobGalleryComponent } from './job-gallery.component';
@@ -36,7 +36,8 @@ function setup(jobs: Job[]) {
 }
 
 describe('JobGalleryComponent', () => {
-  afterEach(() => vi.clearAllTimers());
+  beforeEach(() => vi.useFakeTimers());
+  afterEach(() => vi.useRealTimers());
 
   describe('loading state', () => {
     it('shows spinner before jobs arrive', () => {
@@ -152,33 +153,33 @@ describe('JobGalleryComponent', () => {
   });
 
   describe('timer', () => {
-    it('auto-advances after interval', fakeAsync(() => {
+    it('auto-advances after interval', () => {
       const { component } = setup(twoJobs);
       expect(component.currentIndex()).toBe(0);
-      tick(4500);
+      vi.advanceTimersByTime(4500);
       expect(component.currentIndex()).toBe(1);
       component.ngOnDestroy();
-    }));
+    });
 
-    it('pauses on mouseenter and resumes on mouseleave', fakeAsync(() => {
+    it('pauses on mouseenter and resumes on mouseleave', () => {
       const { component, el } = setup(twoJobs);
       const carousel = el.querySelector('.carousel') as HTMLElement;
       carousel.dispatchEvent(new MouseEvent('mouseenter'));
-      tick(4500);
+      vi.advanceTimersByTime(4500);
       expect(component.currentIndex()).toBe(0); // paused — no advance
       carousel.dispatchEvent(new MouseEvent('mouseleave'));
-      tick(4500);
+      vi.advanceTimersByTime(4500);
       expect(component.currentIndex()).toBe(1); // now running
       component.ngOnDestroy();
-    }));
+    });
   });
 
   describe('ngOnDestroy', () => {
-    it('clears the timer', fakeAsync(() => {
+    it('clears the timer', () => {
       const { component } = setup(twoJobs);
       component.ngOnDestroy();
-      tick(10000);
+      vi.advanceTimersByTime(10000);
       expect(component.currentIndex()).toBe(0); // no advance after destroy
-    }));
+    });
   });
 });

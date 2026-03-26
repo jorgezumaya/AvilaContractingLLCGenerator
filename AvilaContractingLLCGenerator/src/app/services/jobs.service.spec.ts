@@ -10,28 +10,28 @@ const mockItems = [
   { name: 'shower-wall-mosaic.jpg' },
 ];
 
-vi.mock('@angular/fire/storage', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@angular/fire/storage')>();
-  return {
-    ...actual,
-    ref: vi.fn(() => ({})),
-    listAll: vi.fn(() =>
-      Promise.resolve({ items: mockItems, prefixes: [] })
-    ),
-    getDownloadURL: vi.fn((item: { name: string }) =>
-      Promise.resolve(`https://storage.example.com/jobs/${item.name}`)
-    ),
-  };
-});
+class TestJobsService extends JobsService {
+  listAllSpy = vi.fn(() => Promise.resolve({ items: mockItems, prefixes: [] } as any));
+  getUrlSpy = vi.fn((item: { name: string }) =>
+    Promise.resolve(`https://storage.example.com/jobs/${item.name}`)
+  );
+
+  protected override _folderRef() { return {} as any; }
+  protected override _listAll(_folderRef: any): any { return this.listAllSpy(); }
+  protected override _getDownloadURL(item: any): any { return this.getUrlSpy(item); }
+}
 
 describe('JobsService', () => {
-  let service: JobsService;
+  let service: TestJobsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: Storage, useValue: {} }],
+      providers: [
+        { provide: Storage, useValue: {} },
+        { provide: JobsService, useClass: TestJobsService },
+      ],
     });
-    service = TestBed.inject(JobsService);
+    service = TestBed.inject(JobsService) as unknown as TestJobsService;
   });
 
   afterEach(() => vi.clearAllMocks());
@@ -71,9 +71,8 @@ describe('JobsService', () => {
     });
 
     it('calls getDownloadURL once per file', async () => {
-      const { getDownloadURL } = await import('@angular/fire/storage');
       await firstValueFrom(service.getAll());
-      expect(getDownloadURL).toHaveBeenCalledTimes(2);
+      expect(service.getUrlSpy).toHaveBeenCalledTimes(2);
     });
   });
 });

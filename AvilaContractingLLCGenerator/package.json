@@ -7,7 +7,7 @@
     "build": "ng build",
     "postbuild": "cp dist/AvilaContractingLLCGenerator/browser/index.csr.html dist/AvilaContractingLLCGenerator/browser/index.html && cp dist/AvilaContractingLLCGenerator/browser/index.csr.html dist/AvilaContractingLLCGenerator/browser/404.html",
     "watch": "ng build --watch --configuration development",
-    "test": "node --max-old-space-size=4096 node_modules/.bin/ng test",
+    "test": "node --max-old-space-size=4096 node_modules/@angular/cli/bin/ng.js test",
     "serve:ssr:AvilaContractingLLCGenerator": "node dist/AvilaContractingLLCGenerator/server/server.mjs"
   },
   "private": true,
