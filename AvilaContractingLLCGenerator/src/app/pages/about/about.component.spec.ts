@@ -58,7 +58,22 @@ describe("AboutComponent", () => {
     });
   });
 
-  describe("services list", () => {
+  describe("about description", () => {
+    it("mentions 10 years of experience", () => {
+      expect(el.textContent).toContain("10 years");
+    });
+
+    it("mentions Raleigh, NC", () => {
+      expect(el.textContent).toContain("Raleigh, NC");
+    });
+  });
+
+  describe("services grid", () => {
+    it("renders eight service items", () => {
+      const items = el.querySelectorAll(".service-item");
+      expect(items.length).toBe(8);
+    });
+
     it("renders Floor Tile Installation", () => {
       expect(el.textContent).toContain("Floor Tile Installation");
     });
@@ -71,12 +86,31 @@ describe("AboutComponent", () => {
       expect(el.textContent).toContain("Shower");
     });
 
+    it("renders Backsplash Installation", () => {
+      expect(el.textContent).toContain("Backsplash");
+    });
+
     it("renders Niche & Custom Tile Work", () => {
       expect(el.textContent).toContain("Niche");
     });
 
+    it("renders Grout & Tile Repair", () => {
+      expect(el.textContent).toContain("Grout");
+    });
+
     it("renders Floor Leveling", () => {
       expect(el.textContent).toContain("Floor Leveling");
+    });
+
+    it("renders Outdoor & Patio Tile", () => {
+      expect(el.textContent).toContain("Outdoor");
+    });
+
+    it("each service item has a mat-icon", () => {
+      const items = el.querySelectorAll(".service-item");
+      items.forEach(item => {
+        expect(item.querySelector("mat-icon")).toBeTruthy();
+      });
     });
   });
 
@@ -89,8 +123,8 @@ describe("AboutComponent", () => {
       expect(el.textContent).toContain("984-202-6576");
     });
 
-    it("renders the location", () => {
-      expect(el.textContent).toContain("North Carolina");
+    it("renders the Raleigh location", () => {
+      expect(el.textContent).toContain("Raleigh, NC");
     });
 
     it("email link has correct href with subject and body", () => {

@@ -2,7 +2,6 @@ import { Component, inject, signal, OnInit, OnDestroy, PLATFORM_ID, NgZone } fro
 import { isPlatformBrowser } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
 import { EMAIL_MAILTO } from '../../constants/contact.constants';
 import { MarketingService } from '../../services/marketing.service';
 
@@ -11,7 +10,7 @@ const SLIDE_INTERVAL_MS = 2000;
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [MatCardModule, MatIconModule, MatListModule],
+  imports: [MatCardModule, MatIconModule],
   templateUrl: './about.component.html',
   styleUrl: './about.component.css',
 })
