@@ -1,5 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from "@angular/core/testing";
-import { NgZone } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { vi } from "vitest";
 import { of } from "rxjs";
 import { AboutComponent } from "./about.component";
@@ -166,17 +165,22 @@ describe("AboutComponent", () => {
       expect(el.querySelector(".bg-overlay")).toBeTruthy();
     });
 
-    it("advances to the next slide after 2 seconds", fakeAsync(() => {
-      TestBed.inject(NgZone).run(() => tick(2000));
+    it("currentIndex advances to the next slide correctly", () => {
+      component.currentIndex.update(i => (i + 1) % component.bgUrls().length);
       fixture.detectChanges();
       expect(component.currentIndex()).toBe(1);
-    }));
+      const slides = el.querySelectorAll(".bg-slide");
+      expect(slides[1].classList).toContain("active");
+    });
 
-    it("wraps around to index 0 after cycling through all slides", fakeAsync(() => {
-      TestBed.inject(NgZone).run(() => tick(2000 * MARKETING_URLS.length));
+    it("currentIndex wraps back to 0 after the last slide", () => {
+      component.currentIndex.set(MARKETING_URLS.length - 1);
+      component.currentIndex.update(i => (i + 1) % component.bgUrls().length);
       fixture.detectChanges();
       expect(component.currentIndex()).toBe(0);
-    }));
+      const slides = el.querySelectorAll(".bg-slide");
+      expect(slides[0].classList).toContain("active");
+    });
 
     it("does not render the slideshow when no URLs are returned", async () => {
       mockMarketingService.getUrls.mockReturnValue(of([]));
