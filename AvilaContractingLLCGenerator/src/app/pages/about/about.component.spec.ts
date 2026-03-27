@@ -1,6 +1,17 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { vi } from "vitest";
+import { of } from "rxjs";
 import { AboutComponent } from "./about.component";
+import { MarketingService } from "../../services/marketing.service";
 import { provideAnimations } from "@angular/platform-browser/animations";
+
+const MARKETING_URLS = [
+  "https://storage.example.com/marketing/banner_one.jpg",
+  "https://storage.example.com/marketing/banner_two.jpg",
+  "https://storage.example.com/marketing/banner_three.jpg",
+];
+
+const mockMarketingService = { getUrls: vi.fn(() => of(MARKETING_URLS)) };
 
 describe("AboutComponent", () => {
   let component: AboutComponent;
@@ -8,9 +19,14 @@ describe("AboutComponent", () => {
   let el: HTMLElement;
 
   beforeEach(async () => {
+    mockMarketingService.getUrls.mockReturnValue(of(MARKETING_URLS));
+
     await TestBed.configureTestingModule({
       imports: [AboutComponent],
-      providers: [provideAnimations()],
+      providers: [
+        provideAnimations(),
+        { provide: MarketingService, useValue: mockMarketingService },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AboutComponent);
@@ -18,6 +34,8 @@ describe("AboutComponent", () => {
     fixture.detectChanges();
     el = fixture.nativeElement as HTMLElement;
   });
+
+  afterEach(() => vi.clearAllMocks());
 
   it("should create", () => {
     expect(component).toBeTruthy();
@@ -39,7 +57,22 @@ describe("AboutComponent", () => {
     });
   });
 
-  describe("services list", () => {
+  describe("about description", () => {
+    it("mentions 10 years of experience", () => {
+      expect(el.textContent).toContain("10 years");
+    });
+
+    it("mentions Raleigh, NC", () => {
+      expect(el.textContent).toContain("Raleigh, NC");
+    });
+  });
+
+  describe("services grid", () => {
+    it("renders eight service items", () => {
+      const items = el.querySelectorAll(".service-item");
+      expect(items.length).toBe(8);
+    });
+
     it("renders Floor Tile Installation", () => {
       expect(el.textContent).toContain("Floor Tile Installation");
     });
@@ -52,12 +85,31 @@ describe("AboutComponent", () => {
       expect(el.textContent).toContain("Shower");
     });
 
+    it("renders Backsplash Installation", () => {
+      expect(el.textContent).toContain("Backsplash");
+    });
+
     it("renders Niche & Custom Tile Work", () => {
       expect(el.textContent).toContain("Niche");
     });
 
+    it("renders Grout & Tile Repair", () => {
+      expect(el.textContent).toContain("Grout");
+    });
+
     it("renders Floor Leveling", () => {
       expect(el.textContent).toContain("Floor Leveling");
+    });
+
+    it("renders Outdoor & Patio Tile", () => {
+      expect(el.textContent).toContain("Outdoor");
+    });
+
+    it("each service item has a mat-icon", () => {
+      const items = el.querySelectorAll(".service-item");
+      items.forEach(item => {
+        expect(item.querySelector("mat-icon")).toBeTruthy();
+      });
     });
   });
 
@@ -70,20 +122,72 @@ describe("AboutComponent", () => {
       expect(el.textContent).toContain("984-202-6576");
     });
 
-    it("renders the location", () => {
-      expect(el.textContent).toContain("North Carolina");
+    it("renders the Raleigh location", () => {
+      expect(el.textContent).toContain("Raleigh, NC");
     });
 
-    it("email link has correct href", () => {
-      const link = el.querySelector('a[href^="mailto:"]') as HTMLAnchorElement;
+    it("email link has correct href with subject and body", () => {
+      const link = el.querySelector('a[href*="mailto:"]') as HTMLAnchorElement;
       expect(link).toBeTruthy();
       expect(link.href).toContain("Avilacontractingllc4");
+      expect(link.href).toContain("subject=");
+      expect(link.href).toContain("body=");
     });
 
     it("phone link has correct href", () => {
       const link = el.querySelector('a[href^="tel:"]') as HTMLAnchorElement;
       expect(link).toBeTruthy();
       expect(link.href).toContain("984");
+    });
+  });
+
+  describe("background slideshow", () => {
+    it("loads URLs from MarketingService on init", () => {
+      expect(mockMarketingService.getUrls).toHaveBeenCalledOnce();
+      expect(component.bgUrls()).toEqual(MARKETING_URLS);
+    });
+
+    it("renders a bg-slide element for each URL", () => {
+      fixture.detectChanges();
+      const slides = el.querySelectorAll(".bg-slide");
+      expect(slides.length).toBe(MARKETING_URLS.length);
+    });
+
+    it("starts with the first slide active", () => {
+      fixture.detectChanges();
+      expect(component.currentIndex()).toBe(0);
+      const slides = el.querySelectorAll(".bg-slide");
+      expect(slides[0].classList).toContain("active");
+    });
+
+    it("renders the bg-overlay when images are present", () => {
+      fixture.detectChanges();
+      expect(el.querySelector(".bg-overlay")).toBeTruthy();
+    });
+
+    it("currentIndex advances to the next slide correctly", () => {
+      component.currentIndex.update(i => (i + 1) % component.bgUrls().length);
+      fixture.detectChanges();
+      expect(component.currentIndex()).toBe(1);
+      const slides = el.querySelectorAll(".bg-slide");
+      expect(slides[1].classList).toContain("active");
+    });
+
+    it("currentIndex wraps back to 0 after the last slide", () => {
+      component.currentIndex.set(MARKETING_URLS.length - 1);
+      component.currentIndex.update(i => (i + 1) % component.bgUrls().length);
+      fixture.detectChanges();
+      expect(component.currentIndex()).toBe(0);
+      const slides = el.querySelectorAll(".bg-slide");
+      expect(slides[0].classList).toContain("active");
+    });
+
+    it("does not render the slideshow when no URLs are returned", async () => {
+      mockMarketingService.getUrls.mockReturnValue(of([]));
+      const f2 = TestBed.createComponent(AboutComponent);
+      f2.detectChanges();
+      expect(f2.nativeElement.querySelector(".bg-slideshow")).toBeNull();
+      f2.destroy();
     });
   });
 });

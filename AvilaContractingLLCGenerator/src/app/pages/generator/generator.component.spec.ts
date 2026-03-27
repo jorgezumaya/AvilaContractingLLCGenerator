@@ -1,4 +1,4 @@
-import { TestBed } from "@angular/core/testing";
+import { TestBed, ComponentFixture } from "@angular/core/testing";
 import { vi } from "vitest";
 import { of } from "rxjs";
 import { GeneratorComponent } from "./generator.component";
@@ -14,6 +14,8 @@ const mockContactsService = { getAll: vi.fn().mockReturnValue(of([])) };
 
 describe("GeneratorComponent", () => {
   let component: GeneratorComponent;
+  let fixture: ComponentFixture<GeneratorComponent>;
+  let el: HTMLElement;
 
   beforeEach(async () => {
     dialogSpy.open.mockClear();
@@ -29,13 +31,93 @@ describe("GeneratorComponent", () => {
       ],
     }).compileComponents();
 
-    const fixture = TestBed.createComponent(GeneratorComponent);
+    fixture = TestBed.createComponent(GeneratorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    el = fixture.nativeElement as HTMLElement;
   });
 
   it("should create", () => {
     expect(component).toBeTruthy();
+  });
+
+  describe("feature cards", () => {
+    it("renders the Estimates card", () => {
+      expect(el.textContent).toContain("Estimates");
+    });
+
+    it("renders the Invoices card", () => {
+      expect(el.textContent).toContain("Invoices");
+    });
+
+    it("renders the PDF Export card", () => {
+      expect(el.textContent).toContain("PDF Export");
+    });
+
+    it("renders three feature card items", () => {
+      const items = el.querySelectorAll(".gen-feature-item");
+      expect(items.length).toBe(3);
+    });
+
+    it("renders mobile labels for each feature", () => {
+      const labels = el.querySelectorAll(".gen-feature-mobile-label");
+      expect(labels.length).toBe(3);
+    });
+
+    it("renders three mobile description elements", () => {
+      const descs = el.querySelectorAll(".gen-feature-mobile-desc");
+      expect(descs.length).toBe(3);
+    });
+  });
+
+  describe("toggleFeature()", () => {
+    it("starts with no active feature", () => {
+      expect(component.activeFeature()).toBeNull();
+    });
+
+    it("sets the active feature on first call", () => {
+      component.toggleFeature("estimates");
+      expect(component.activeFeature()).toBe("estimates");
+    });
+
+    it("clears the active feature when called again with the same name", () => {
+      component.toggleFeature("estimates");
+      component.toggleFeature("estimates");
+      expect(component.activeFeature()).toBeNull();
+    });
+
+    it("switches to a different feature without needing to deactivate first", () => {
+      component.toggleFeature("invoices");
+      component.toggleFeature("pdf");
+      expect(component.activeFeature()).toBe("pdf");
+    });
+
+    it("adds .active class to the clicked card in the DOM", () => {
+      component.toggleFeature("estimates");
+      fixture.detectChanges();
+      const cards = el.querySelectorAll(".gen-feature-card");
+      expect(cards[0].classList).toContain("active");
+      expect(cards[1].classList).not.toContain("active");
+      expect(cards[2].classList).not.toContain("active");
+    });
+
+    it("adds .visible class to the matching mobile desc", () => {
+      component.toggleFeature("invoices");
+      fixture.detectChanges();
+      const descs = el.querySelectorAll(".gen-feature-mobile-desc");
+      expect(descs[1].classList).toContain("visible");
+      expect(descs[0].classList).not.toContain("visible");
+      expect(descs[2].classList).not.toContain("visible");
+    });
+
+    it("removes .visible class when the same feature is toggled off", () => {
+      component.toggleFeature("pdf");
+      fixture.detectChanges();
+      component.toggleFeature("pdf");
+      fixture.detectChanges();
+      const descs = el.querySelectorAll(".gen-feature-mobile-desc");
+      descs.forEach((d) => expect(d.classList).not.toContain("visible"));
+    });
   });
 
   describe("EorI signal", () => {

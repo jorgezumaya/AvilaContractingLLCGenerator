@@ -34,6 +34,26 @@ describe('SiteFooterComponent', () => {
     expect(phoneLink).toBeTruthy();
   });
 
+  it('renders a mailto email link with subject and body', () => {
+    const el: HTMLElement = fixture.nativeElement;
+    const emailLink = el.querySelector('a[href*="mailto:"]') as HTMLAnchorElement;
+    expect(emailLink).toBeTruthy();
+    expect(emailLink.href).toContain('Avilacontractingllc4');
+    expect(emailLink.href).toContain('subject=');
+    expect(emailLink.href).toContain('body=');
+  });
+
+  it('exposes the emailMailto constant on the component', () => {
+    expect(fixture.componentInstance.emailMailto).toContain('mailto:');
+    expect(fixture.componentInstance.emailMailto).toContain('subject=');
+  });
+
+  it('email link text contains the business email address', () => {
+    const el: HTMLElement = fixture.nativeElement;
+    const emailLink = el.querySelector('a[href^="mailto:"]');
+    expect(emailLink?.textContent).toContain('Avilacontractingllc4');
+  });
+
   it('renders the copyright year', () => {
     const el: HTMLElement = fixture.nativeElement;
     expect(el.textContent).toContain(String(new Date().getFullYear()));

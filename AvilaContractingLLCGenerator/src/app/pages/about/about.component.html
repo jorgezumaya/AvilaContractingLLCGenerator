@@ -1,70 +1,123 @@
-<div class="about-container">
-  <header class="about-header" aria-label="About Avila Contracting LLC">
-    <img src="avilaLLC.png" alt="Avila Contracting LLC logo" class="about-logo" />
-    <div class="about-header-text">
-      <h1 class="about-title">About Avila Contracting LLC</h1>
-      <p class="about-tagline">Professional Tile Installation Services</p>
+<div class="about-page">
+
+  <!-- Background slideshow (marketingpics/ folder in Firebase Storage) -->
+  @if (bgUrls().length > 0) {
+    <div class="bg-slideshow" aria-hidden="true">
+      @for (url of bgUrls(); track url; let i = $index) {
+        <div class="bg-slide" [class.active]="i === currentIndex()">
+          <img [src]="url" alt="" class="bg-slide-img" />
+        </div>
+      }
     </div>
-  </header>
+    <div class="bg-overlay" aria-hidden="true"></div>
+  }
 
-  <mat-card class="about-card">
-    <mat-card-content>
-      <p>
-        Avila Contracting LLC specializes in professional tile installation,
-        serving residential and commercial clients in the Triangle Area of
-        North Carolina. We bring craftsmanship and attention to detail to
-        every project, from master baths to full floor leveling.
-      </p>
-    </mat-card-content>
-  </mat-card>
+  <!-- Page content -->
+  <div class="about-container">
+    <header class="about-header" aria-label="About Avila Contracting LLC">
+      <img src="avilaLLC.png" alt="Avila Contracting LLC logo" class="about-logo" />
+      <div class="about-header-text">
+        <h1 class="about-title">About Avila Contracting LLC</h1>
+        <p class="about-tagline">Professional Tile Installation Services</p>
+      </div>
+    </header>
 
-  <mat-card class="about-card">
-    <mat-card-header>
-      <mat-card-title>Our Services</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <mat-list role="list">
-        <mat-list-item role="listitem">
-          <mat-icon matListItemIcon aria-hidden="true">check_circle</mat-icon>
-          <span matListItemTitle>Floor Tile Installation</span>
-        </mat-list-item>
-        <mat-list-item role="listitem">
-          <mat-icon matListItemIcon aria-hidden="true">check_circle</mat-icon>
-          <span matListItemTitle>Wall Tile Installation</span>
-        </mat-list-item>
-        <mat-list-item role="listitem">
-          <mat-icon matListItemIcon aria-hidden="true">check_circle</mat-icon>
-          <span matListItemTitle>Shower &amp; Tub Surrounds</span>
-        </mat-list-item>
-        <mat-list-item role="listitem">
-          <mat-icon matListItemIcon aria-hidden="true">check_circle</mat-icon>
-          <span matListItemTitle>Niche &amp; Custom Tile Work</span>
-        </mat-list-item>
-        <mat-list-item role="listitem">
-          <mat-icon matListItemIcon aria-hidden="true">check_circle</mat-icon>
-          <span matListItemTitle>Floor Leveling</span>
-        </mat-list-item>
-      </mat-list>
-    </mat-card-content>
-  </mat-card>
+    <mat-card class="about-card">
+      <mat-card-content>
+        <p>
+          Avila Contracting LLC has been delivering quality tile work for over 10 years,
+          serving homeowners and contractors throughout the Raleigh, NC area and surrounding
+          communities. From single bathroom renovations to full commercial projects, we bring
+          the same level of craftsmanship and attention to detail to every job we take on.
+        </p>
+        <p>
+          No project is too big or too small. We are reliable, easy to work with, and open
+          to any type of work that comes our way. As the industry continues to change, we stay
+          current with new materials and techniques so our clients always get the best results
+          possible. When you hire Avila Contracting LLC, you can expect us to show up, communicate
+          clearly, and get the job done right the first time.
+        </p>
+      </mat-card-content>
+    </mat-card>
 
-  <mat-card class="about-card contact-card">
-    <mat-card-header>
-      <mat-card-title>Contact Us</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <p>
-        <mat-icon aria-hidden="true">email</mat-icon>
-        <a href="mailto:Avilacontractingllc4@gmail.com">Avilacontractingllc4&#64;gmail.com</a>
-      </p>
-      <p>
-        <mat-icon aria-hidden="true">phone</mat-icon>
-        <a href="tel:+19842026576">(+1) 984-202-6576</a>
-      </p>
-      <p>
-        <mat-icon aria-hidden="true">location_on</mat-icon>
-        Triangle Area, North Carolina
-      </p>
-    </mat-card-content>
-  </mat-card>
+    <mat-card class="about-card">
+      <mat-card-header>
+        <mat-card-title>Our Services</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="services-grid">
+
+          <div class="service-item">
+            <mat-icon class="service-icon" aria-hidden="true">grid_on</mat-icon>
+            <span class="service-name">Floor Tile Installation</span>
+            <p class="service-desc">Precision installation of all floor tile types, from ceramic and porcelain to large-format slabs.</p>
+          </div>
+
+          <div class="service-item">
+            <mat-icon class="service-icon" aria-hidden="true">view_column</mat-icon>
+            <span class="service-name">Wall Tile Installation</span>
+            <p class="service-desc">Clean, level wall tile work for kitchens, bathrooms, laundry rooms, and accent walls.</p>
+          </div>
+
+          <div class="service-item">
+            <mat-icon class="service-icon" aria-hidden="true">shower</mat-icon>
+            <span class="service-name">Shower &amp; Tub Surrounds</span>
+            <p class="service-desc">Waterproof, beautifully tiled shower enclosures and tub surrounds built to last for years.</p>
+          </div>
+
+          <div class="service-item">
+            <mat-icon class="service-icon" aria-hidden="true">kitchen</mat-icon>
+            <span class="service-name">Backsplash Installation</span>
+            <p class="service-desc">Custom backsplash designs that add character and style to any kitchen or bathroom.</p>
+          </div>
+
+          <div class="service-item">
+            <mat-icon class="service-icon" aria-hidden="true">construction</mat-icon>
+            <span class="service-name">Niche &amp; Custom Tile Work</span>
+            <p class="service-desc">Built-in niches, decorative patterns, and detailed accent work tailored to your vision.</p>
+          </div>
+
+          <div class="service-item">
+            <mat-icon class="service-icon" aria-hidden="true">handyman</mat-icon>
+            <span class="service-name">Grout &amp; Tile Repair</span>
+            <p class="service-desc">Regrouting, crack repair, and tile replacement to restore your surfaces to like-new condition.</p>
+          </div>
+
+          <div class="service-item">
+            <mat-icon class="service-icon" aria-hidden="true">straighten</mat-icon>
+            <span class="service-name">Floor Leveling</span>
+            <p class="service-desc">Professional substrate preparation and floor leveling for a smooth, flawless tile finish.</p>
+          </div>
+
+          <div class="service-item">
+            <mat-icon class="service-icon" aria-hidden="true">deck</mat-icon>
+            <span class="service-name">Outdoor &amp; Patio Tile</span>
+            <p class="service-desc">Slip-resistant, weather-rated tile for patios, pool decks, entryways, and outdoor spaces.</p>
+          </div>
+
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="about-card contact-card">
+      <mat-card-header>
+        <mat-card-title>Contact Us</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          <mat-icon aria-hidden="true">email</mat-icon>
+          <a [href]="emailMailto">Avilacontractingllc4&#64;gmail.com</a>
+        </p>
+        <p>
+          <mat-icon aria-hidden="true">phone</mat-icon>
+          <a href="tel:+19842026576">(+1) 984-202-6576</a>
+        </p>
+        <p>
+          <mat-icon aria-hidden="true">location_on</mat-icon>
+          Raleigh, NC and Surrounding Areas
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
 </div>
