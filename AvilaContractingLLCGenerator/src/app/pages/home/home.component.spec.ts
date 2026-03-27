@@ -57,5 +57,13 @@ describe("HomeComponent", () => {
     it("renders the business phone", () => {
       expect(el.textContent).toContain("984-202-6576");
     });
+
+    it("email is a clickable mailto link with subject and body", () => {
+      const link = el.querySelector('a[href*="mailto:"]') as HTMLAnchorElement;
+      expect(link).toBeTruthy();
+      expect(link.href).toContain("Avilacontractingllc4");
+      expect(link.href).toContain("subject=");
+      expect(link.href).toContain("body=");
+    });
   });
 });

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { EMAIL_MAILTO } from '../../constants/contact.constants';
 
 @Component({
   selector: 'app-about',
@@ -10,4 +11,6 @@ import { MatListModule } from '@angular/material/list';
   templateUrl: './about.component.html',
   styleUrl: './about.component.css',
 })
-export class AboutComponent {}
+export class AboutComponent {
+  readonly emailMailto = EMAIL_MAILTO;
+}

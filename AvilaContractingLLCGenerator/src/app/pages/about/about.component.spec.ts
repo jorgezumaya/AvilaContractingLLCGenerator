@@ -74,10 +74,12 @@ describe("AboutComponent", () => {
       expect(el.textContent).toContain("North Carolina");
     });
 
-    it("email link has correct href", () => {
-      const link = el.querySelector('a[href^="mailto:"]') as HTMLAnchorElement;
+    it("email link has correct href with subject and body", () => {
+      const link = el.querySelector('a[href*="mailto:"]') as HTMLAnchorElement;
       expect(link).toBeTruthy();
       expect(link.href).toContain("Avilacontractingllc4");
+      expect(link.href).toContain("subject=");
+      expect(link.href).toContain("body=");
     });
 
     it("phone link has correct href", () => {
