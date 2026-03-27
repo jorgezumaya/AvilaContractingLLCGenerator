@@ -7,6 +7,73 @@
   gap: 24px;
 }
 
+/* ===== Feature Cards ===== */
+.gen-features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.gen-feature-item {
+  /* desktop: transparent wrapper — card fills the grid cell */
+}
+
+.gen-feature-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 28px 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  outline-offset: 3px;
+}
+
+.gen-feature-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14);
+}
+
+.gen-feature-card:focus-visible {
+  outline: 2px solid #1a237e;
+}
+
+.gen-feature-icon {
+  font-size: 2.5rem;
+  height: 2.5rem;
+  width: 2.5rem;
+  color: #1a237e;
+  margin-bottom: 12px;
+}
+
+.gen-feature-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a237e;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.gen-feature-desc {
+  color: #555;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.gen-feature-mobile-label {
+  display: none;
+}
+
+.gen-feature-mobile-desc {
+  display: none;
+}
+
 .preview-fab {
   position: fixed;
   bottom: 32px;
@@ -38,5 +105,94 @@
   .preview-fab {
     bottom: 20px;
     right: 16px;
+  }
+
+  /* Feature cards → compact circles */
+  .gen-features {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .gen-feature-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .gen-feature-card {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background-color: #1a237e;
+    box-shadow: 0 4px 12px rgba(26, 35, 126, 0.35);
+    padding: 0;
+    justify-content: center;
+    transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+  }
+
+  .gen-feature-card:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 16px rgba(26, 35, 126, 0.5);
+  }
+
+  .gen-feature-card.active {
+    background-color: #b71c1c;
+    box-shadow: 0 4px 14px rgba(183, 28, 28, 0.5);
+  }
+
+  .gen-feature-card:focus-visible {
+    outline: 2px solid #b71c1c;
+    outline-offset: 4px;
+  }
+
+  .gen-feature-icon {
+    font-size: 1.8rem;
+    height: 1.8rem;
+    width: 1.8rem;
+    color: #fff;
+    margin: 0;
+  }
+
+  .gen-feature-title,
+  .gen-feature-desc {
+    display: none;
+  }
+
+  .gen-feature-mobile-label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #1a237e;
+    text-align: center;
+    letter-spacing: 0.02em;
+  }
+
+  .gen-feature-mobile-desc {
+    display: none;
+    max-width: 110px;
+    text-align: center;
+    font-size: 0.72rem;
+    color: #555;
+    line-height: 1.4;
+    margin: 0;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 6px 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.15s ease;
+  }
+
+  .gen-feature-mobile-desc.visible {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 }

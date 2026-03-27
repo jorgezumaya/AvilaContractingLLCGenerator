@@ -30,6 +30,11 @@ export class GeneratorComponent {
 
   EorI = signal(Status.E);
   selectedDate = signal<Date | null>(null);
+  activeFeature = signal<string | null>(null);
+
+  toggleFeature(name: string): void {
+    this.activeFeature.set(this.activeFeature() === name ? null : name);
+  }
 
   clientInfo: ClientInfo = { name: '', phone: '', address: '', addressWorked: '' };
   sections: RoomSection[] = [this.docService.newSection()];

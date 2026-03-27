@@ -5,6 +5,63 @@
 ></app-header>
 
 <div class="page-container">
+  <section class="gen-features" aria-label="Generator features">
+    <div class="gen-feature-item">
+      <div class="gen-feature-card"
+           role="button"
+           tabindex="0"
+           [class.active]="activeFeature() === 'estimates'"
+           (click)="toggleFeature('estimates')"
+           (keydown.enter)="toggleFeature('estimates')"
+           (keydown.space)="$event.preventDefault(); toggleFeature('estimates')"
+           aria-label="Estimates — tap for details">
+        <mat-icon class="gen-feature-icon">request_quote</mat-icon>
+        <span class="gen-feature-title">Estimates</span>
+        <p class="gen-feature-desc">Generate professional estimates instantly for any tile job.</p>
+      </div>
+      <span class="gen-feature-mobile-label">Estimates</span>
+      <p class="gen-feature-mobile-desc" [class.visible]="activeFeature() === 'estimates'">
+        Generate professional estimates instantly for any tile job.
+      </p>
+    </div>
+    <div class="gen-feature-item">
+      <div class="gen-feature-card"
+           role="button"
+           tabindex="0"
+           [class.active]="activeFeature() === 'invoices'"
+           (click)="toggleFeature('invoices')"
+           (keydown.enter)="toggleFeature('invoices')"
+           (keydown.space)="$event.preventDefault(); toggleFeature('invoices')"
+           aria-label="Invoices — tap for details">
+        <mat-icon class="gen-feature-icon">receipt_long</mat-icon>
+        <span class="gen-feature-title">Invoices</span>
+        <p class="gen-feature-desc">Create detailed invoices for completed work with one click.</p>
+      </div>
+      <span class="gen-feature-mobile-label">Invoices</span>
+      <p class="gen-feature-mobile-desc" [class.visible]="activeFeature() === 'invoices'">
+        Create detailed invoices for completed work with one click.
+      </p>
+    </div>
+    <div class="gen-feature-item">
+      <div class="gen-feature-card"
+           role="button"
+           tabindex="0"
+           [class.active]="activeFeature() === 'pdf'"
+           (click)="toggleFeature('pdf')"
+           (keydown.enter)="toggleFeature('pdf')"
+           (keydown.space)="$event.preventDefault(); toggleFeature('pdf')"
+           aria-label="PDF Export — tap for details">
+        <mat-icon class="gen-feature-icon">picture_as_pdf</mat-icon>
+        <span class="gen-feature-title">PDF Export</span>
+        <p class="gen-feature-desc">Download print-ready documents named by address and date.</p>
+      </div>
+      <span class="gen-feature-mobile-label">PDF Export</span>
+      <p class="gen-feature-mobile-desc" [class.visible]="activeFeature() === 'pdf'">
+        Download print-ready documents named by address and date.
+      </p>
+    </div>
+  </section>
+
   <app-client-info [info]="clientInfo"></app-client-info>
   <app-line-items [sections]="sections"></app-line-items>
   <app-document-footer

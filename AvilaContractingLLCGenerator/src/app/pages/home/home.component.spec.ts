@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { vi } from "vitest";
 import { of } from "rxjs";
 import { HomeComponent } from "./home.component";
-import { provideRouter } from "@angular/router";
 import { provideAnimations } from "@angular/platform-browser/animations";
 import { JobsService } from "../../services/jobs.service";
 
@@ -15,7 +14,6 @@ describe("HomeComponent", () => {
     await TestBed.configureTestingModule({
       imports: [HomeComponent],
       providers: [
-        provideRouter([]),
         provideAnimations(),
         { provide: JobsService, useValue: { getAll: vi.fn(() => of([])) } },
       ],
@@ -40,28 +38,14 @@ describe("HomeComponent", () => {
       expect(el.textContent).toContain("Professional Tile Installation");
     });
 
-    it("renders the Open Generator CTA button", () => {
-      expect(el.textContent).toContain("Open Generator");
+    it("does not render the Open Generator button", () => {
+      expect(el.textContent).not.toContain("Open Generator");
     });
 
     it("renders the logo image with alt text", () => {
       const img = el.querySelector("img.hero-logo") as HTMLImageElement;
       expect(img).toBeTruthy();
       expect(img.alt).toContain("Avila Contracting LLC");
-    });
-  });
-
-  describe("feature cards", () => {
-    it("renders Estimates card", () => {
-      expect(el.textContent).toContain("Estimates");
-    });
-
-    it("renders Invoices card", () => {
-      expect(el.textContent).toContain("Invoices");
-    });
-
-    it("renders PDF Export card", () => {
-      expect(el.textContent).toContain("PDF Export");
     });
   });
 
