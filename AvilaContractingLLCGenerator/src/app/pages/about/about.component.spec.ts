@@ -1,6 +1,18 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from "@angular/core/testing";
+import { NgZone } from "@angular/core";
+import { vi } from "vitest";
+import { of } from "rxjs";
 import { AboutComponent } from "./about.component";
+import { MarketingService } from "../../services/marketing.service";
 import { provideAnimations } from "@angular/platform-browser/animations";
+
+const MARKETING_URLS = [
+  "https://storage.example.com/marketing/banner_one.jpg",
+  "https://storage.example.com/marketing/banner_two.jpg",
+  "https://storage.example.com/marketing/banner_three.jpg",
+];
+
+const mockMarketingService = { getUrls: vi.fn(() => of(MARKETING_URLS)) };
 
 describe("AboutComponent", () => {
   let component: AboutComponent;
@@ -8,9 +20,14 @@ describe("AboutComponent", () => {
   let el: HTMLElement;
 
   beforeEach(async () => {
+    mockMarketingService.getUrls.mockReturnValue(of(MARKETING_URLS));
+
     await TestBed.configureTestingModule({
       imports: [AboutComponent],
-      providers: [provideAnimations()],
+      providers: [
+        provideAnimations(),
+        { provide: MarketingService, useValue: mockMarketingService },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AboutComponent);
@@ -18,6 +35,8 @@ describe("AboutComponent", () => {
     fixture.detectChanges();
     el = fixture.nativeElement as HTMLElement;
   });
+
+  afterEach(() => vi.clearAllMocks());
 
   it("should create", () => {
     expect(component).toBeTruthy();
@@ -86,6 +105,51 @@ describe("AboutComponent", () => {
       const link = el.querySelector('a[href^="tel:"]') as HTMLAnchorElement;
       expect(link).toBeTruthy();
       expect(link.href).toContain("984");
+    });
+  });
+
+  describe("background slideshow", () => {
+    it("loads URLs from MarketingService on init", () => {
+      expect(mockMarketingService.getUrls).toHaveBeenCalledOnce();
+      expect(component.bgUrls()).toEqual(MARKETING_URLS);
+    });
+
+    it("renders a bg-slide element for each URL", () => {
+      fixture.detectChanges();
+      const slides = el.querySelectorAll(".bg-slide");
+      expect(slides.length).toBe(MARKETING_URLS.length);
+    });
+
+    it("starts with the first slide active", () => {
+      fixture.detectChanges();
+      expect(component.currentIndex()).toBe(0);
+      const slides = el.querySelectorAll(".bg-slide");
+      expect(slides[0].classList).toContain("active");
+    });
+
+    it("renders the bg-overlay when images are present", () => {
+      fixture.detectChanges();
+      expect(el.querySelector(".bg-overlay")).toBeTruthy();
+    });
+
+    it("advances to the next slide after 2 seconds", fakeAsync(() => {
+      TestBed.inject(NgZone).run(() => tick(2000));
+      fixture.detectChanges();
+      expect(component.currentIndex()).toBe(1);
+    }));
+
+    it("wraps around to index 0 after cycling through all slides", fakeAsync(() => {
+      TestBed.inject(NgZone).run(() => tick(2000 * MARKETING_URLS.length));
+      fixture.detectChanges();
+      expect(component.currentIndex()).toBe(0);
+    }));
+
+    it("does not render the slideshow when no URLs are returned", async () => {
+      mockMarketingService.getUrls.mockReturnValue(of([]));
+      const f2 = TestBed.createComponent(AboutComponent);
+      f2.detectChanges();
+      expect(f2.nativeElement.querySelector(".bg-slideshow")).toBeNull();
+      f2.destroy();
     });
   });
 });

@@ -1,70 +1,87 @@
-<div class="about-container">
-  <header class="about-header" aria-label="About Avila Contracting LLC">
-    <img src="avilaLLC.png" alt="Avila Contracting LLC logo" class="about-logo" />
-    <div class="about-header-text">
-      <h1 class="about-title">About Avila Contracting LLC</h1>
-      <p class="about-tagline">Professional Tile Installation Services</p>
+<div class="about-page">
+
+  <!-- Background slideshow (marketing/ folder in Firebase Storage) -->
+  @if (bgUrls().length > 0) {
+    <div class="bg-slideshow" aria-hidden="true">
+      @for (url of bgUrls(); track url; let i = $index) {
+        <div class="bg-slide" [class.active]="i === currentIndex()">
+          <img [src]="url" alt="" class="bg-slide-img" />
+        </div>
+      }
     </div>
-  </header>
+    <div class="bg-overlay" aria-hidden="true"></div>
+  }
 
-  <mat-card class="about-card">
-    <mat-card-content>
-      <p>
-        Avila Contracting LLC specializes in professional tile installation,
-        serving residential and commercial clients in the Triangle Area of
-        North Carolina. We bring craftsmanship and attention to detail to
-        every project, from master baths to full floor leveling.
-      </p>
-    </mat-card-content>
-  </mat-card>
+  <!-- Page content -->
+  <div class="about-container">
+    <header class="about-header" aria-label="About Avila Contracting LLC">
+      <img src="avilaLLC.png" alt="Avila Contracting LLC logo" class="about-logo" />
+      <div class="about-header-text">
+        <h1 class="about-title">About Avila Contracting LLC</h1>
+        <p class="about-tagline">Professional Tile Installation Services</p>
+      </div>
+    </header>
 
-  <mat-card class="about-card">
-    <mat-card-header>
-      <mat-card-title>Our Services</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <mat-list role="list">
-        <mat-list-item role="listitem">
-          <mat-icon matListItemIcon aria-hidden="true">check_circle</mat-icon>
-          <span matListItemTitle>Floor Tile Installation</span>
-        </mat-list-item>
-        <mat-list-item role="listitem">
-          <mat-icon matListItemIcon aria-hidden="true">check_circle</mat-icon>
-          <span matListItemTitle>Wall Tile Installation</span>
-        </mat-list-item>
-        <mat-list-item role="listitem">
-          <mat-icon matListItemIcon aria-hidden="true">check_circle</mat-icon>
-          <span matListItemTitle>Shower &amp; Tub Surrounds</span>
-        </mat-list-item>
-        <mat-list-item role="listitem">
-          <mat-icon matListItemIcon aria-hidden="true">check_circle</mat-icon>
-          <span matListItemTitle>Niche &amp; Custom Tile Work</span>
-        </mat-list-item>
-        <mat-list-item role="listitem">
-          <mat-icon matListItemIcon aria-hidden="true">check_circle</mat-icon>
-          <span matListItemTitle>Floor Leveling</span>
-        </mat-list-item>
-      </mat-list>
-    </mat-card-content>
-  </mat-card>
+    <mat-card class="about-card">
+      <mat-card-content>
+        <p>
+          Avila Contracting LLC specializes in professional tile installation,
+          serving residential and commercial clients in the Triangle Area of
+          North Carolina. We bring craftsmanship and attention to detail to
+          every project, from master baths to full floor leveling.
+        </p>
+      </mat-card-content>
+    </mat-card>
 
-  <mat-card class="about-card contact-card">
-    <mat-card-header>
-      <mat-card-title>Contact Us</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <p>
-        <mat-icon aria-hidden="true">email</mat-icon>
-        <a [href]="emailMailto">Avilacontractingllc4&#64;gmail.com</a>
-      </p>
-      <p>
-        <mat-icon aria-hidden="true">phone</mat-icon>
-        <a href="tel:+19842026576">(+1) 984-202-6576</a>
-      </p>
-      <p>
-        <mat-icon aria-hidden="true">location_on</mat-icon>
-        Triangle Area, North Carolina
-      </p>
-    </mat-card-content>
-  </mat-card>
+    <mat-card class="about-card">
+      <mat-card-header>
+        <mat-card-title>Our Services</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list role="list">
+          <mat-list-item role="listitem">
+            <mat-icon matListItemIcon aria-hidden="true">check_circle</mat-icon>
+            <span matListItemTitle>Floor Tile Installation</span>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon matListItemIcon aria-hidden="true">check_circle</mat-icon>
+            <span matListItemTitle>Wall Tile Installation</span>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon matListItemIcon aria-hidden="true">check_circle</mat-icon>
+            <span matListItemTitle>Shower &amp; Tub Surrounds</span>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon matListItemIcon aria-hidden="true">check_circle</mat-icon>
+            <span matListItemTitle>Niche &amp; Custom Tile Work</span>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon matListItemIcon aria-hidden="true">check_circle</mat-icon>
+            <span matListItemTitle>Floor Leveling</span>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="about-card contact-card">
+      <mat-card-header>
+        <mat-card-title>Contact Us</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          <mat-icon aria-hidden="true">email</mat-icon>
+          <a [href]="emailMailto">Avilacontractingllc4&#64;gmail.com</a>
+        </p>
+        <p>
+          <mat-icon aria-hidden="true">phone</mat-icon>
+          <a href="tel:+19842026576">(+1) 984-202-6576</a>
+        </p>
+        <p>
+          <mat-icon aria-hidden="true">location_on</mat-icon>
+          Triangle Area, North Carolina
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
 </div>
