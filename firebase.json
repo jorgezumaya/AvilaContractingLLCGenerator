@@ -1,0 +1,20 @@
+{
+  "hosting": {
+    "public": "AvilaContractingLLCGenerator/dist/AvilaContractingLLCGenerator/browser",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "/api/firebase-token",
+        "function": "firebaseToken",
+        "region": "us-central1"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "functions": {
+    "source": "functions"
+  }
+}
