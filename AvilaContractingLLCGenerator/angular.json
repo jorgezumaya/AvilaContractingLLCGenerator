@@ -57,7 +57,7 @@
           "configurations": {
             "production": {
               "outputMode": "static",
-              "baseHref": "/AvilaContractingLLCGenerator/",
+              "baseHref": "/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",

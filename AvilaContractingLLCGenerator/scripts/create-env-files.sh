@@ -34,7 +34,7 @@ export const environment = {
   production: true,
   auth0Domain: '${AUTH0_DOMAIN}',
   auth0ClientId: '${AUTH0_CLIENT_ID}',
-  auth0RedirectUri: 'https://jorgezumaya.github.io/AvilaContractingLLCGenerator/callback',
+  auth0RedirectUri: 'https://avila-contracting-llc.web.app/callback',
   firebaseConfig: {
     apiKey: '${FIREBASE_API_KEY}',
     authDomain: '${FIREBASE_AUTH_DOMAIN}',

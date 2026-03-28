@@ -1,4 +1,4 @@
-name: CI / Deploy to GitHub Pages
+name: CI / Deploy to Firebase
 
 on:
   push:
@@ -7,20 +7,8 @@ on:
     branches: ["main"]
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# Only one deployment at a time; don't cancel in-progress runs.
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
 jobs:
   # ── CI ─────────────────────────────────────────────────────────────────────
-  # Runs on every push and pull-request to main.
-  # Deploy is blocked until this job passes.
   ci:
     name: Test & Lint
     runs-on: ubuntu-latest
@@ -57,21 +45,12 @@ jobs:
       - name: Run unit tests
         run: npm test
 
-      # Uncomment once Angular ESLint is configured:
-      #   ng add @angular-eslint/schematics
-      # - name: Lint
-      #   run: npm run lint
-
   # ── Deploy ─────────────────────────────────────────────────────────────────
-  # Only runs on push to main (not PRs), and only if CI passes.
   deploy:
-    name: Deploy to GitHub Pages
+    name: Deploy to Firebase
     needs: ci
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Checkout
@@ -84,14 +63,11 @@ jobs:
           cache: 'npm'
           cache-dependency-path: AvilaContractingLLCGenerator/package-lock.json
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Install dependencies
+      - name: Install Angular app dependencies
         working-directory: AvilaContractingLLCGenerator
         run: npm ci
 
-      - name: Create environment files
+      - name: Create Angular environment files
         working-directory: AvilaContractingLLCGenerator
         run: bash scripts/create-env-files.sh
         env:
@@ -107,14 +83,19 @@ jobs:
       - name: Build Angular app
         working-directory: AvilaContractingLLCGenerator
         run: npm run build
-        # baseHref is set in angular.json production config.
-        # postbuild script copies index.html → 404.html for SPA deep-link support.
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: 'AvilaContractingLLCGenerator/dist/AvilaContractingLLCGenerator/browser'
+      - name: Install Functions dependencies
+        working-directory: functions
+        run: npm ci
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Build Functions
+        working-directory: functions
+        run: npm run build
+
+      - name: Create Functions env file
+        run: |
+          echo "AUTH0_DOMAIN=${{ secrets.AUTH0_DOMAIN }}" > functions/.env
+          echo "AUTH0_CLIENT_ID=${{ secrets.AUTH0_CLIENT_ID }}" >> functions/.env
+
+      - name: Deploy to Firebase Hosting + Functions
+        run: npx firebase-tools deploy --only hosting,functions --token ${{ secrets.FIREBASE_TOKEN }}
