@@ -97,5 +97,10 @@ jobs:
           echo "AUTH0_DOMAIN=${{ secrets.AUTH0_DOMAIN }}" > functions/.env
           echo "AUTH0_CLIENT_ID=${{ secrets.AUTH0_CLIENT_ID }}" >> functions/.env
 
+      - name: Write service account key
+        run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > /tmp/sa.json
+
       - name: Deploy to Firebase Hosting + Functions
-        run: npx firebase-tools deploy --only hosting,functions --token ${{ secrets.FIREBASE_TOKEN }}
+        run: npx firebase-tools deploy --only hosting,functions --force
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: /tmp/sa.json
