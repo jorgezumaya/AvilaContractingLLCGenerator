@@ -10,7 +10,9 @@ if (!getApps().length) {
 // Auth0 → Firebase custom token exchange.
 // Called by FirebaseAuthService after Auth0 login.
 // Firebase Hosting rewrites /api/firebase-token → this function.
-export const firebaseToken = functions.https.onRequest(async (req, res) => {
+export const firebaseToken = functions
+  .runWith({ secrets: ['AUTH0_DOMAIN', 'AUTH0_CLIENT_ID'] })
+  .https.onRequest(async (req, res) => {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
