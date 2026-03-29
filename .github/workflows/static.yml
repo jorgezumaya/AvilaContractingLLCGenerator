@@ -92,11 +92,6 @@ jobs:
         working-directory: functions
         run: npm run build
 
-      - name: Create Functions env file
-        run: |
-          echo "AUTH0_DOMAIN=${{ secrets.AUTH0_DOMAIN }}" > functions/.env
-          echo "AUTH0_CLIENT_ID=${{ secrets.AUTH0_CLIENT_ID }}" >> functions/.env
-
       - name: Write service account key
         run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > /tmp/sa.json
 
