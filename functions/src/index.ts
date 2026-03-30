@@ -50,7 +50,8 @@ export const firebaseToken = onRequest(
       const uid = payload.sub as string;
       const token = await getAuth().createCustomToken(uid);
       res.json({ firebaseToken: token });
-    } catch {
+    } catch (err) {
+      console.error('[firebaseToken] JWT verification failed:', err);
       res.status(401).json({ error: 'Unauthorized' });
     }
   }
